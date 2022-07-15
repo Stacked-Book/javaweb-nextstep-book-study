@@ -1,7 +1,7 @@
 # javaweb-nextstep-book-study
 
 ## ✅ 책
-자바 웹 프로그래밍 Next Step(https://www.aladin.co.kr/shop/wproduct.aspx?ItemId=91501933)
+[자바 웹 프로그래밍 Next Step](https://www.aladin.co.kr/shop/wproduct.aspx?ItemId=91501933)
 
 ## ✅ 방식
 - 매주 금요일 오후10시 디스코드 온라인 회의
