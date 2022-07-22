@@ -4,10 +4,13 @@ import java.io.*;
 import java.net.Socket;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
+import java.util.Map;
 
+import db.DataBase;
 import model.User;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import util.HttpRequestUtils;
 import util.IOUtils;
 
 import static util.RequestHandlerUtil.*;
@@ -32,14 +35,29 @@ public class RequestHandler extends Thread {
         try (InputStream in = connection.getInputStream(); OutputStream out = connection.getOutputStream()) {
             BufferedReader br = new BufferedReader(new InputStreamReader(in, StandardCharsets.UTF_8));
             String line = br.readLine();
+
             // 요청메시지의 URL부분만 자르기
             String url = splitRequestMessage(line);
-
-            // 모든 라인을 출력하기
-            printAllRequestLine(br, line);
             DataOutputStream dos = new DataOutputStream(out);
 
-            if (this.contentLength != 0) {
+            // 모든 라인을 출력하기
+            printAllRequestLine(br, line,dos,body);
+
+            if (url.equals("/user/login")) {
+                String requestBody = IOUtils.readData(br, contentLength);
+                Map<String, String> stringStringMap = HttpRequestUtils.parseQueryString(requestBody);
+                if (isMatchIdAndPw(stringStringMap)) {
+                    responseCookieHeaderTrue(dos, body.length,requestBody);
+                    log.info("성공시 line : {}", line);
+                    log.info("로그인성공");
+                }
+                else{
+                    log.info("로그인 실패");
+                    responseCookieHeaderFalse(dos, body.length,requestBody);
+                }
+            }
+
+            if (url.equals("/user/create")) {
                 String requestBody = IOUtils.readData(br, contentLength);
                 user = savePostUser(requestBody);
                 response302Header(dos, body.length);
@@ -70,7 +88,7 @@ public class RequestHandler extends Thread {
         }
     }
 
-    private void printAllRequestLine(BufferedReader br, String line) throws IOException {
+    private void printAllRequestLine(BufferedReader br, String line, DataOutputStream dos, byte[] body) throws IOException {
         while (!"".equals(line)) {
             if (line == null) {
                 throw new RuntimeException("");
@@ -82,6 +100,39 @@ public class RequestHandler extends Thread {
                 this.contentLength = Integer.parseInt(split[1].trim());
             }
             log.debug("line= {}" , line);
+        }
+    }
+
+    private boolean isMatchIdAndPw(Map<String, String> stringStringMap) {
+        return DataBase.findUserById(stringStringMap.get("userId")).getUserId().equals(stringStringMap.get("userId"))
+                && DataBase.findUserById(stringStringMap.get("userId")).getPassword().equals(stringStringMap.get("password"));
+    }
+
+    private void responseCookieHeaderFalse(DataOutputStream dos, int length, String body) {
+        try {
+            dos.writeBytes("HTTP/1.1 302 FOUND \r\n");
+            dos.writeBytes("Location: http://localhost:8080/login_failed.html\r\n");
+            dos.writeBytes("Content-Type: text/html;charset=utf-8\r\n");
+            dos.writeBytes("Set-Cookie: logined=false\r\n");
+            dos.writeBytes("Content-Length: " + length + "\r\n");
+            dos.writeBytes("\r\n");
+            dos.writeBytes(body);
+        } catch (IOException e) {
+            log.error(e.getMessage());
+        }
+    }
+
+    private void responseCookieHeaderTrue(DataOutputStream dos, int length, String body) {
+        try {
+            dos.writeBytes("HTTP/1.1 302 FOUND \r\n");
+            dos.writeBytes("Location: http://localhost:8080/index.html\r\n");
+            dos.writeBytes("Content-Type: text/html;charset=utf-8\r\n");
+            dos.writeBytes("Set-Cookie: logined=true\r\n");
+            dos.writeBytes("Content-Length: " + length + "\r\n");
+            dos.writeBytes("\r\n");
+            dos.writeBytes(body);
+        } catch (IOException e) {
+            log.error(e.getMessage());
         }
     }
 

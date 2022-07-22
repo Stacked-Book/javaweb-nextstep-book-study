@@ -1,10 +1,14 @@
 package webserver;
 
+import db.DataBase;
 import model.User;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import util.HttpRequestUtils;
 import util.RequestHandlerUtil;
 
+import java.util.Arrays;
+import java.util.Map;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -30,5 +34,6 @@ class RequestHandlerTest {
         String header = "/user/create";
         String body = "userId=dudwls0505&password=1234&name=leeyoungjin&email=dudwls0505@naver.com";
         assertThat(RequestHandlerUtil.savePostUser(body)).isEqualTo(new User("dudwls0505", "1234", "leeyoungjin", "dudwls0505@naver.com"));
+
     }
 }

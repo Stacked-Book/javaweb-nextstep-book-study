@@ -1,5 +1,6 @@
 package util;
 
+import db.DataBase;
 import model.User;
 import java.util.Map;
 
@@ -24,6 +25,8 @@ public class RequestHandlerUtil {
 
     public static User savePostUser(String requestBody) {
         Map<String, String> parsingUrl = HttpRequestUtils.parseQueryString(requestBody);
+        DataBase.addUser(new User(parsingUrl.get("userId"), parsingUrl.get("password"), parsingUrl.get("name"), parsingUrl.get("email")));
         return new User(parsingUrl.get("userId"), parsingUrl.get("password"), parsingUrl.get("name"), parsingUrl.get("email"));
     }
 }
+
