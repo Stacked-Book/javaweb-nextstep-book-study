@@ -4,6 +4,7 @@ import java.io.*;
 import java.net.Socket;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
+import java.util.Collection;
 import java.util.Map;
 
 import db.DataBase;
@@ -35,7 +36,6 @@ public class RequestHandler extends Thread {
         try (InputStream in = connection.getInputStream(); OutputStream out = connection.getOutputStream()) {
             BufferedReader br = new BufferedReader(new InputStreamReader(in, StandardCharsets.UTF_8));
             String line = br.readLine();
-
             // 요청메시지의 URL부분만 자르기
             String url = splitRequestMessage(line);
             DataOutputStream dos = new DataOutputStream(out);
@@ -50,19 +50,46 @@ public class RequestHandler extends Thread {
                     responseCookieHeaderTrue(dos, body.length,requestBody);
                     log.info("성공시 line : {}", line);
                     log.info("로그인성공");
+                    return;
                 }
                 else{
                     log.info("로그인 실패");
                     responseCookieHeaderFalse(dos, body.length,requestBody);
+                    body = Files.readAllBytes(new File("./3~6장 실습공간/webapp/user/" + url).toPath());
+                    responseBody(dos, body);
+                    return;
                 }
             }
+
 
             if (url.equals("/user/create")) {
                 String requestBody = IOUtils.readData(br, contentLength);
                 user = savePostUser(requestBody);
                 response302Header(dos, body.length);
+                log.info("실행되나요");
                 return;
             }
+
+
+            if (url.equals("/user/list.html") && HttpRequestUtils.parseCookies(line).containsKey("Cookie: logined")) {
+                /*
+                    쿠키존재, 로그인성공
+                 */
+                if (HttpRequestUtils.parseCookies(line).containsValue("true")) {
+                    StringBuilder sb = new StringBuilder();
+                    sb.append(DataBase.findAll());
+//                    Collection<User> allMember = DataBase.findAll().;
+//                    System.out.println(allMember);
+                }
+
+                /*
+                    쿠키없음, 로그인실패
+                 */
+                else if(HttpRequestUtils.parseCookies(line).containsValue("false")){
+                    response302Loginhtml(dos, body.length);
+                }
+            }
+
 
             if (user == null) {
                 body = Files.readAllBytes(new File("./3~6장 실습공간/webapp" + url).toPath());
@@ -70,6 +97,19 @@ public class RequestHandler extends Thread {
 
             response200Header(dos, body.length);
             responseBody(dos, body);
+
+        } catch (IOException e) {
+            log.error(e.getMessage());
+        }
+    }
+
+    private void response302Loginhtml(DataOutputStream dos, int length) {
+        try {
+            dos.writeBytes("HTTP/1.1 302 FOUND \r\n");
+            dos.writeBytes("Location: http://localhost:8080/user/login.html\r\n");
+            dos.writeBytes("Content-Type: text/html;charset=utf-8\r\n");
+            dos.writeBytes("Content-Length: " + length + "\r\n");
+            dos.writeBytes("\r\n");
 
         } catch (IOException e) {
             log.error(e.getMessage());
