@@ -28,13 +28,13 @@ public class RequestHandler extends Thread {
             // TODO 사용자 요청에 대한 처리는 이 곳에 구현하면 된다.
 
             String reqData = getDataFromInputStream(in);
-
 //            String[] token = reqData.split(("\\s+"));
             String[] token = Arrays.stream(reqData.split("\\s+"))
                     .map(String::trim)
                     .toArray(String[]::new);
-
             String url = token[1];
+
+
 
             DataOutputStream dos = new DataOutputStream(out);
             byte[] body = resDataFromUrl(url);
@@ -73,6 +73,7 @@ public class RequestHandler extends Thread {
 
         if(url == null || url == "") return "Hello World".getBytes();
         if (Files.notExists(new File("./webapp" + url).toPath()))  return "Hello World".getBytes();
+        if (Files.isDirectory(new File("./webapp" + url).toPath()))  return "Hello World".getBytes();
 
         return Files.readAllBytes(new File("./webapp" + url).toPath());
     }
