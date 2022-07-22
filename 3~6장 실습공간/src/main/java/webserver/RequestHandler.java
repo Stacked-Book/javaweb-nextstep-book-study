@@ -37,20 +37,34 @@ public class RequestHandler extends Thread {
 
             // 모든 라인을 출력하기
             printAllRequestLine(br, line);
+            DataOutputStream dos = new DataOutputStream(out);
 
             if (this.contentLength != 0) {
                 String requestBody = IOUtils.readData(br, contentLength);
                 user = savePostUser(requestBody);
+                response302Header(dos, body.length);
+                return;
             }
 
             if (user == null) {
                 body = Files.readAllBytes(new File("./3~6장 실습공간/webapp" + url).toPath());
             }
 
-            DataOutputStream dos = new DataOutputStream(out);
             response200Header(dos, body.length);
             responseBody(dos, body);
 
+        } catch (IOException e) {
+            log.error(e.getMessage());
+        }
+    }
+
+    private void response302Header(DataOutputStream dos, int length) {
+        try {
+            dos.writeBytes("HTTP/1.1 302 FOUND \r\n");
+            dos.writeBytes("Location: http://localhost:8080/index.html\r\n");
+            dos.writeBytes("Content-Type: text/html;charset=utf-8\r\n");
+            dos.writeBytes("Content-Length: " + length + "\r\n");
+            dos.writeBytes("\r\n");
         } catch (IOException e) {
             log.error(e.getMessage());
         }
