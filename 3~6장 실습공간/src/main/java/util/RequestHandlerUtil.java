@@ -12,7 +12,7 @@ public class RequestHandlerUtil {
         return tokens[1];
     }
 
-    public static User saveUser(String url) {
+    public static User saveGetUser(String url) {
         if (url.contains("?")) {
             int index = url.indexOf("?");
             url = url.substring(index+1);
@@ -20,5 +20,10 @@ public class RequestHandlerUtil {
             return new User(parsingUrl.get("userId"), parsingUrl.get("password"), parsingUrl.get("name"), parsingUrl.get("email"));
         }
         return null;
+    }
+
+    public static User savePostUser(String requestBody) {
+        Map<String, String> parsingUrl = HttpRequestUtils.parseQueryString(requestBody);
+        return new User(parsingUrl.get("userId"), parsingUrl.get("password"), parsingUrl.get("name"), parsingUrl.get("email"));
     }
 }
