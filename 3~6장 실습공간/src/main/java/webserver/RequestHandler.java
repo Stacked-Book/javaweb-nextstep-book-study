@@ -3,7 +3,9 @@ package webserver;
 import java.io.*;
 import java.net.Socket;
 import java.nio.file.Files;
+import java.util.Collection;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import db.DataBase;
@@ -12,6 +14,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import util.HttpRequestUtils;
 import util.IOUtils;
+
 
 public class RequestHandler extends Thread {
     private static final Logger log = LoggerFactory.getLogger(RequestHandler.class);
@@ -52,6 +55,7 @@ public class RequestHandler extends Thread {
                 }
             }
             log.debug("Content-Length : {}", headers.get("Content-Length"));
+            DataOutputStream dos = new DataOutputStream(out);
 
             if (url.startsWith("/user/create")) {
                 String requestBody = IOUtils.readData(br, Integer.parseInt(headers.get("Content-Length")));
@@ -61,7 +65,6 @@ public class RequestHandler extends Thread {
                 log.debug("User : {}", user);
                 DataBase.addUser(user);
 
-                DataOutputStream dos = new DataOutputStream(out);
                 response302Header(dos);
             } else if(url.equals("/user/login")) {
                 String requestBody = IOUtils.readData(br, Integer.parseInt(headers.get("Content-Length")));
@@ -71,21 +74,38 @@ public class RequestHandler extends Thread {
                 User user = DataBase.findUserById(params.get("userId"));
                 if (user == null) {
                     log.debug("User Not Found");
-                    DataOutputStream dos = new DataOutputStream(out);
                     response302Header(dos);
                 }
                 if (params.get("password").equals(user.getPassword())) {
                     log.debug("login success");
-                    DataOutputStream dos = new DataOutputStream(out);
                     response302WithCookie(dos, "logined=true");
                 } else {
                     log.debug("Password Mismatch");
-                    DataOutputStream dos = new DataOutputStream(out);
                     response302WithCookie(dos, "logined=false");
                 }
 
+            } else if (url.equals("/user/list")) {
+                Map<String, String> cookie = httpRequestUtils.parseCookies(headers.get("Cookie"));
+                Boolean flag = Boolean.parseBoolean(cookie.get("logined"));
+
+                if (flag) {
+                    StringBuilder sb = new StringBuilder();
+
+                    Collection<User> userList = DataBase.findAll();
+
+                    for(User user : userList) {
+                        sb.append("<li> ID : " + user.getUserId() + ", Name : " + user.getName() + ", Email : " + user.getEmail() + "</li>");
+                    }
+                    String html = sb.toString();
+                    byte[] body = html.getBytes();
+                    response200Header(dos, body.length);
+                    responseBody(dos, body);
+                } else {
+                    log.debug("Cookie is missing");
+                    response302Header(dos);
+                }
+
             } else {
-                DataOutputStream dos = new DataOutputStream(out);
                 byte[] body = Files.readAllBytes(new File("./webapp", url).toPath());
                 response200Header(dos, body.length);
                 responseBody(dos, body);
