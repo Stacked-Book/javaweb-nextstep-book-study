@@ -2,11 +2,15 @@ package webserver;
 
 import java.io.*;
 import java.net.Socket;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 
+import model.User;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import util.RequestHandlerUtil;
+
+import static util.RequestHandlerUtil.*;
+
 
 public class RequestHandler extends Thread {
     private static final Logger log = LoggerFactory.getLogger(RequestHandler.class);
@@ -21,21 +25,21 @@ public class RequestHandler extends Thread {
         log.debug("New Client Connect! Connected IP : {}, Port : {}", connection.getInetAddress(),
                 connection.getPort());
 
+        byte[] body = "Hello World".getBytes(StandardCharsets.UTF_8);
+
         try (InputStream in = connection.getInputStream(); OutputStream out = connection.getOutputStream()) {
-            // TODO 사용자 요청에 대한 처리는 이 곳에 구현하면 된다.
-            BufferedReader br = new BufferedReader(new InputStreamReader(in));
+            BufferedReader br = new BufferedReader(new InputStreamReader(in, StandardCharsets.UTF_8));
             String line = br.readLine();
-            String url = RequestHandlerUtil.parsing(line);
 
-            while (!"".equals(line)) {
-                if (line == null) {
-                    throw new RuntimeException("");
-                }
-                line = br.readLine();
-                log.debug("line= {}" ,line);
+            String url = splitRequestMessage(line);
+            User user = saveUser(url);
+
+            // 모든 라인을 출력하기
+            printAllRequestLine(br, line);
+
+            if (user == null) {
+                body = Files.readAllBytes(new File("./3~6장 실습공간/webapp" + url).toPath());
             }
-
-            byte[] body = Files.readAllBytes(new File("./3~6장 실습공간/webapp" + url).toPath());
 
             DataOutputStream dos = new DataOutputStream(out);
             response200Header(dos, body.length);
@@ -46,9 +50,14 @@ public class RequestHandler extends Thread {
         }
     }
 
-    private String requestSplit(String token) {
-        String[] tokens = token.split(" ");
-        return tokens[1];
+    private void printAllRequestLine(BufferedReader br, String line) throws IOException {
+        while (!"".equals(line)) {
+            if (line == null) {
+                throw new RuntimeException("");
+            }
+            line = br.readLine();
+            log.debug("line= {}" , line);
+        }
     }
 
     private void response200Header(DataOutputStream dos, int lengthOfBodyContent) {
