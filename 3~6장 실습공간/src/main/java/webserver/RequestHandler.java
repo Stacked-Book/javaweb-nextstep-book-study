@@ -10,6 +10,7 @@ import java.util.Map;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import util.HttpRequestUtils;
+import util.IOUtils;
 import util.UserUtils;
 
 public class RequestHandler extends Thread {
@@ -28,14 +29,22 @@ public class RequestHandler extends Thread {
         try (InputStream in = connection.getInputStream(); OutputStream out = connection.getOutputStream()) {
             // TODO 사용자 요청에 대한 처리는 이 곳에 구현하면 된다.
 
-            String reqData = getDataFromInputStream(in);
+            InputStreamReader reader = new InputStreamReader(in);
+            BufferedReader br = new BufferedReader(reader);
+
+            String reqData = getDataFromInputStream(br);
             String[] token = Arrays.stream(reqData.split("\\s+"))
                     .map(String::trim)
                     .toArray(String[]::new);
             String httpMethod = token[0];
             String url = token[1];
+            int contentLength = 0;
             Map<String, String> value = new HashMap<>();
 
+            /**
+             * GET 요청일 경우 url만 따로 추출 쿼리 스트링 값 value로 추출
+             * POST 요청일 경우 IOUtils 사용하여 body 내의 데이터 추출
+             * */
             switch (httpMethod) {
                 case "GET" -> {
                     if(isOwnQueryData(url)){
@@ -49,10 +58,16 @@ public class RequestHandler extends Thread {
                     }
                 }
                 case "POST" -> {
+                    if(reqData.contains("Content-Length")) {
+                        contentLength = getContentLength(reqData);
+                    }
+                    String body = IOUtils.readData(br, contentLength);
+                    value = HttpRequestUtils.parseQueryString(body);
 
                 }
 
             }
+
             controlUrl(httpMethod,url,value);
 
             DataOutputStream dos = new DataOutputStream(out);
@@ -71,9 +86,7 @@ public class RequestHandler extends Thread {
     private void controlUrl(String httpMethod, String url, Map<String,String> value) {
         if(httpMethod.equals("GET")) {
             switch (url) {
-                case "/user/create" -> {
-                    UserUtils.saveUser(value);
-                }
+                case "/user/create" -> UserUtils.saveUser(value);
 
             }
         }
@@ -91,12 +104,20 @@ public class RequestHandler extends Thread {
         return url.contains("?");
     }
 
+    private int getContentLength(String reqData) {
+        String[] token = Arrays.stream(reqData.split("\\s+"))
+                .map(String::trim)
+                .toArray(String[]::new);
+        for(int i =0; i< token.length; i ++) {
+            if(token[i].contains("Content-Length"))
+                return Integer.parseInt(token[i+1]);
+        }
+        return 0;
+    }
     /**
      * InputStream으로부터 데이터 추출하는 메서드
      * */
-    private String getDataFromInputStream(InputStream in) throws IOException {
-        InputStreamReader reader = new InputStreamReader(in);
-        BufferedReader br = new BufferedReader(reader);
+    private String getDataFromInputStream(BufferedReader br) throws IOException {
 
         String headerLine = "";
         String line = "";
