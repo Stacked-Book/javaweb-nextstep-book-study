@@ -63,18 +63,23 @@ public class RequestHandler extends Thread {
                     }
                     String body = IOUtils.readData(br, contentLength);
                     value = HttpRequestUtils.parseQueryString(body);
-
                 }
-
             }
 
-            controlUrl(httpMethod,url,value);
+            String specificReturnUrl = controlUrl(httpMethod,url,value); // /user/create 처리가 됨.
 
-            DataOutputStream dos = new DataOutputStream(out);
-            byte[] body = resDataFromUrl(url);
+            if(specificReturnUrl != null) {
+                DataOutputStream dos = new DataOutputStream(out);
+                byte[] body = resDataFromUrl(specificReturnUrl);
+                response302Header(dos, specificReturnUrl);
+                responseBody(dos, body);
+            } else {
+                DataOutputStream dos = new DataOutputStream(out);
+                byte[] body = resDataFromUrl(url);
+                response200Header(dos, body.length);
+                responseBody(dos, body);
+            }
 
-            response200Header(dos, body.length);
-            responseBody(dos, body);
         } catch ( IOException e ) {
             log.error(e.getMessage());
         }
@@ -83,18 +88,24 @@ public class RequestHandler extends Thread {
     /**
      * httpMethod, url에 따라 분기처리하기 위한 컨트롤러
      * */
-    private void controlUrl(String httpMethod, String url, Map<String,String> value) {
+    private String controlUrl(String httpMethod, String url, Map<String,String> value) {
         if(httpMethod.equals("GET")) {
             switch (url) {
-                case "/user/create" -> UserUtils.saveUser(value);
-
+                case "/user/create" -> {
+                    UserUtils.saveUser(value);
+                    return "/index.html";
+                }
             }
         }
         if(httpMethod.equals("POST")) {
             switch (url) {
-                case "/user/create" -> UserUtils.saveUser(value);
+                case "/user/create" -> {
+                    UserUtils.saveUser(value);
+                    return "/index.html";
+                }
             }
         }
+        return null;
     }
 
     /**
@@ -149,6 +160,16 @@ public class RequestHandler extends Thread {
             dos.writeBytes("HTTP/1.1 200 OK \r\n");
             dos.writeBytes("Content-Type: text/html;charset=utf-8\r\n");
             dos.writeBytes("Content-Length: " + lengthOfBodyContent + "\r\n");
+            dos.writeBytes("\r\n");
+        } catch (IOException e) {
+            log.error(e.getMessage());
+        }
+    }
+
+    private void response302Header(DataOutputStream dos, String url) {
+        try {
+            dos.writeBytes("HTTP/1.1 302 Redirect \r\n");
+            dos.writeBytes("Location: "+ url + "\r\n");
             dos.writeBytes("\r\n");
         } catch (IOException e) {
             log.error(e.getMessage());
