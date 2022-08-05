@@ -27,4 +27,5 @@ class HttpRequestTest {
         assertThat("keep-alive").isEqualTo(request.getHeader("Connection"));
         assertThat("javajigi").isEqualTo(request.getParameter("userId"));
     }
+
 }
