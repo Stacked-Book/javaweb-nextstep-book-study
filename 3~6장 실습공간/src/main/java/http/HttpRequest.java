@@ -1,24 +1,18 @@
-package webserver;
+package http;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import util.HttpRequestUtils;
 import util.IOUtils;
-import util.RequestLine;
 
 import java.io.*;
 import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
 
 public class HttpRequest {
-    private static final Logger log = LoggerFactory.getLogger(HttpRequest.class);
     private final BufferedReader br;
     private final InputStream in;
-    private final Map<String, String> headerMap = new ConcurrentHashMap<>();
-
-
-    private Map<String, String> paramsMap = new ConcurrentHashMap<>();
+    private Map<String, String> paramsMap;
     private RequestLine requestLine;
+    private HttpMethod httpMethod;
+    private HttpHeaders httpHeaders;
 
     public HttpRequest(InputStream in) throws IOException {
         this.in = in;
@@ -26,25 +20,23 @@ public class HttpRequest {
         String line = br.readLine();
 
         this.requestLine = new RequestLine(line);
+        this.httpHeaders = new HttpHeaders();
 
-        String temp = br.readLine();
-        while (!temp.equals("")) {
-            log.debug("line= {}" , line);
-            String[] split = temp.split(" ");
-            split[0] = split[0].replace(":", "");
-            this.headerMap.put(split[0], split[1]);
-            temp = br.readLine();
+        String temp;
+        while (!(temp = br.readLine()).equals("")) {
+            httpHeaders.inputHeaders(temp);
         }
 
-        if (getMethod().equals("POST")) {
-            String body = IOUtils.readData(br, Integer.parseInt(headerMap.get("Content-Length")));
+        httpMethod = requestLine.getMethod();
+        if (httpMethod.isPost()) {
+            String body = IOUtils.readData(br, Integer.parseInt(httpHeaders.getHeader("Content-Length")));
             this.paramsMap = HttpRequestUtils.parseQueryString(body);
         } else {
             this.paramsMap = requestLine.getParameter();
         }
     }
 
-    public String getMethod() {
+    public HttpMethod getMethod() {
         return this.requestLine.getMethod();
     }
 
@@ -52,16 +44,16 @@ public class HttpRequest {
         return this.requestLine.getPath();
     }
 
-    public Object getHeader(String connection){
-        return this.headerMap.get(connection);
+    public String getHeader(String connection){
+        return this.httpHeaders.getHeader(connection);
     }
 
     public Object getParameter(String userId) {
         return this.paramsMap.get(userId);
     }
 
-
     public Map<String, String> getParamsMap() {
         return this.paramsMap;
     }
+
 }

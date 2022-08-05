@@ -1,4 +1,4 @@
-package webserver;
+package http;
 
 import org.junit.jupiter.api.Test;
 
@@ -12,7 +12,7 @@ class HttpRequestTest {
     void request_GET() throws IOException {
         InputStream in = new FileInputStream(new File(testDr + "Http_GET.txt"));
         HttpRequest request = new HttpRequest(in);
-        assertThat("GET").isEqualTo(request.getMethod());
+        assertThat(HttpMethod.GET).isEqualTo(request.getMethod());
         assertThat("/user/create").isEqualTo(request.getPath());
         assertThat("keep-alive").isEqualTo(request.getHeader("Connection"));
         assertThat("javajigi").isEqualTo(request.getParameter("userId"));
@@ -22,15 +22,9 @@ class HttpRequestTest {
     void request_POST() throws IOException {
         InputStream in = new FileInputStream(new File(testDr + "Http_POST.txt"));
         HttpRequest request = new HttpRequest(in);
-        assertThat("POST").isEqualTo(request.getMethod());
+        assertThat(HttpMethod.POST).isEqualTo(request.getMethod());
         assertThat("/user/create").isEqualTo(request.getPath());
         assertThat("keep-alive").isEqualTo(request.getHeader("Connection"));
         assertThat("javajigi").isEqualTo(request.getParameter("userId"));
-    }
-
-    @Test
-    void test() throws IOException {
-        String a = "/user/create?userId=javajigi&password=password&name=Jaesung";
-        System.out.println(a.substring(a.indexOf("?")+1));
     }
 }
