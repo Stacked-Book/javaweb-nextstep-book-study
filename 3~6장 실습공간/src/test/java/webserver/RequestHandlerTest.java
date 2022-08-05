@@ -34,6 +34,5 @@ class RequestHandlerTest {
         String header = "/user/create";
         String body = "userId=dudwls0505&password=1234&name=leeyoungjin&email=dudwls0505@naver.com";
         assertThat(RequestHandlerUtil.savePostUser(body)).isEqualTo(new User("dudwls0505", "1234", "leeyoungjin", "dudwls0505@naver.com"));
-
     }
 }
