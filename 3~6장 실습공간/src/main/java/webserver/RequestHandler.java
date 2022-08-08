@@ -108,7 +108,7 @@ public class RequestHandler extends Thread {
                 byte[] body = Files.readAllBytes(new File("./3~6장 실습공간/webapp" + url).toPath());
                 response200HeaderWithCss(dos, body.length);
                 responseBody(dos, body);
-            }else {
+            } else {
                 byte[] body = Files.readAllBytes(new File("./3~6장 실습공간/webapp", url).toPath());
                 response200Header(dos, body.length);
                 responseBody(dos, body);
@@ -118,18 +118,6 @@ public class RequestHandler extends Thread {
             log.error(e.getMessage());
         }
     }
-
-//    private void requestHandle(String url, String method) {
-//        if (url.startsWith("/user/create")) {
-//            if ("GET".equals(method)) {
-//              int index = url.indexOf("?");
-//              String query = url.substring(index + 1);
-//              Map<String, String> params = httpRequestUtils.parseQueryString(query);
-//              User user = new User(params.get("userId"), params.get("password"), params.get("name"), params.get("email"));
-//              log.debug("User : {}", user);
-//            }
-//        }
-//    }
 
     private void response200Header(DataOutputStream dos, int lengthOfBodyContent) {
         try {
