@@ -1,5 +1,6 @@
-package webserver;
+package http;
 
+import http.HttpResponse;
 import org.junit.Test;
 
 import java.io.File;

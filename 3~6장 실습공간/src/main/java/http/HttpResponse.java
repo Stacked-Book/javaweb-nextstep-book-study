@@ -1,4 +1,4 @@
-package webserver;
+package http;
 
 import constants.HttpConst;
 import org.slf4j.Logger;
@@ -11,16 +11,17 @@ import java.io.OutputStream;
 import java.nio.file.Files;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
 
 public class HttpResponse {
 
     private static final Logger log = LoggerFactory.getLogger(HttpResponse.class);
 
-    private DataOutputStream dos;
+    private DataOutputStream dos = null;
     private Map<String, String> headers = new HashMap<>();
 
     public HttpResponse(OutputStream out) {
-        this.dos = new DataOutputStream(out);
+        dos = new DataOutputStream(out);
     }
 
     public void addHeader(String header, String value) {
@@ -40,7 +41,7 @@ public class HttpResponse {
                 headers.put(HttpConst.CONTENT_TYPE, "text/html;charset=utf-8");
             }
             headers.put(HttpConst.CONTENT_LENGTH, body.length + "");
-            response200Header(body.length);
+            response200Header();
             responseBody(body);
         } catch(IOException e) {
             log.error(e.getMessage());
@@ -51,15 +52,14 @@ public class HttpResponse {
         byte[] contents = body.getBytes();
         headers.put(HttpConst.CONTENT_TYPE, "text/html;charset=utf-8");
         headers.put(HttpConst.CONTENT_LENGTH, contents.length + "");
-        response200Header(contents.length);
+        response200Header();
         responseBody(contents);
     }
 
-    public void response200Header(int lengthOfBodyContent) {
+    public void response200Header() {
         try {
             dos.writeBytes("HTTP/1.1 200 OK \r\n");
-            dos.writeBytes("Content-Type: text/html;charset=utf-8\r\n");
-            dos.writeBytes("Content-Length: " + lengthOfBodyContent + "\r\n");
+            processHeaders();
             dos.writeBytes("\r\n");
         } catch (IOException e) {
             log.error(e.getMessage());
@@ -69,6 +69,8 @@ public class HttpResponse {
     public void responseBody(byte[] body) {
         try {
             dos.write(body, 0, body.length);
+            dos.writeBytes("\r\n");
+            dos.flush();
         } catch (IOException e) {
             log.error(e.getMessage());
         }
@@ -77,6 +79,7 @@ public class HttpResponse {
     public void sendRedirect(String path) {
         try {
             dos.writeBytes("HTTP/1.1 302 Found \r\n");
+            processHeaders();
             dos.writeBytes("Location: " + path + "\r\n");
             dos.writeBytes("\r\n");
         } catch (IOException e) {
@@ -85,7 +88,14 @@ public class HttpResponse {
     }
 
     public void processHeaders() {
-
+        try {
+            Set<String> keys = headers.keySet();
+            for (String key : keys) {
+                dos.writeBytes(key + ": " + headers.get(key) + " \r\n");
+            }
+        } catch (IOException e) {
+            log.error(e.getMessage());
+        }
     }
 
 
