@@ -39,9 +39,12 @@
 ### RequestHeader
 
 - 상태
-  - 요청 header 정보를 가집니다. 
+  - 요청 header 정보를 가집니다.
+    - 문자열을 입력받아 키와 값으로 파싱합니다.
 - 행위
   - 각 header key 값에 저장된 value를 반환합니다.
+  - header key에 저장된 값이 있는지 확인합니다.
+  - 전체 header의 값을 반환합니다.
 
 ### RequestBody
 
