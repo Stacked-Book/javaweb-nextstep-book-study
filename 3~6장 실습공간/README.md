@@ -16,3 +16,36 @@
 - 헤더에는 Map<String, String>에 저장해 관리하고 getHeader("headerName") 메서드를 통해 접근 가능하도록 구현한다.
 - GET과 POST 메서드에 따라 전달되는 인자를 Map<String, String>에 저장해 관리하고, getParameter("param") 메서드를 통해 접근 가능하도록 구현한다.
 
+### 모델링
+
+### HttpRequest
+
+- 행위
+  - method를 반환합니다.
+  - url 정보를 반환합니다.
+  - protocol version을 반환합니다.
+  - header key 값에 저장된 value를 반환합니다.
+  - body 정보를 반홥합니다.
+    - header의 `Content-Length` 값이 1 이상이어야 합니다.
+
+### RequestLine
+  - 상태
+    - RequestLine은 RequestMethod, RequestUrl, ProtocolVersion 정보를 가집니다.
+  - 행위
+    - method를 반환합니다.
+    - url 정보를 반환합니다.
+    - protocol version을 반환합니다. 
+
+### RequestHeader
+
+- 상태
+  - 요청 header 정보를 가집니다. 
+- 행위
+  - 각 header key 값에 저장된 value를 반환합니다.
+
+### RequestBody
+
+- 상태
+  - 요청 body 정보를 가집니다.
+- 행위
+  - body 정보를 반홥합니다.
