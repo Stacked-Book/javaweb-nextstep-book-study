@@ -9,7 +9,7 @@ import java.util.Map;
 
 import static util.HttpHeaderKey.CONTENT_LENGTH;
 
-public class HttpRequest {
+public class HttpRequestImpl {
     private static final String QUERY = "?";
     private static final String END_POINT = "";
     private static final String REQUEST_LINE = " ";
@@ -18,7 +18,7 @@ public class HttpRequest {
     private Map<String, String> headers = new HashMap<>();
     private Map<String, String> parameters = new HashMap<>();
 
-    public HttpRequest(final InputStream inputStream) throws IOException {
+    public HttpRequestImpl(final InputStream inputStream) throws IOException {
         final BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
         String line = reader.readLine();
         if (line.equals(END_POINT)) {
