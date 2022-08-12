@@ -1,7 +1,6 @@
-package support.request;
+package http.request;
 
 import org.junit.jupiter.api.Test;
-import support.request.RequestHeader;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;

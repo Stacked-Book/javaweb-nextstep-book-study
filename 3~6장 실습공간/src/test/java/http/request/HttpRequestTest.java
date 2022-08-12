@@ -1,4 +1,4 @@
-package support.request;
+package http.request;
 
 import org.junit.jupiter.api.Test;
 import util.HttpRequestImpl;

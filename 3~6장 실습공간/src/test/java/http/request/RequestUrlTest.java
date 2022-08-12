@@ -1,7 +1,6 @@
-package support.request;
+package http.request;
 
 import org.junit.jupiter.api.Test;
-import support.request.RequestUrl;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;

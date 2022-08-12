@@ -1,4 +1,4 @@
-package support.request;
+package http.request;
 
 import util.HttpRequestUtils;
 import util.IOUtils;

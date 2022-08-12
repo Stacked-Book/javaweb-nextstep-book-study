@@ -1,4 +1,4 @@
-package support.request;
+package http.request;
 
 public final class RequestBody {
     private final String body;
