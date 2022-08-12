@@ -14,4 +14,11 @@ public class Body {
     public String getBody() {
         return this.body;
     }
+
+    @Override
+    public String toString() {
+        return "Body{" +
+            "body=" + body +
+            '}';
+    }
 }

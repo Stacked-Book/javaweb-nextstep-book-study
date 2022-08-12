@@ -26,4 +26,11 @@ public class Header {
     public boolean contains(String key) {
         return headers.containsKey(key);
     }
+
+    @Override
+    public String toString() {
+        return "Header{" +
+            "headers=" + headers +
+            '}';
+    }
 }

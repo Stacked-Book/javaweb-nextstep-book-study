@@ -13,7 +13,7 @@ public class Line {
 
     public static Line of(String line) {
         String[] lines = line.split(" ");
-        return new Line(Method.valueOf(lines[0]), Url.of(lines[1]), Version.valueOf(lines[2]));
+        return new Line(Method.valueOf(lines[0]), Url.of(lines[1]), Version.of(lines[2]));
     }
 
     public Method getMethod() {
@@ -26,5 +26,14 @@ public class Line {
 
     public Version getVersion() {
         return version;
+    }
+
+    @Override
+    public String toString() {
+        return "Line{" +
+            "method=" + method +
+            ", url=" + url +
+            ", version=" + version +
+            '}';
     }
 }
