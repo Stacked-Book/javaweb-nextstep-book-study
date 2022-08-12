@@ -12,19 +12,19 @@ class HttpResponseTest {
 
     @Test
     void responseForward() throws FileNotFoundException {
-        HttpResponse httpResponse = new HttpResponse(createOutputStream("Http_Forward.txt"));
+        HttpResponse httpResponse = new HttpResponseImpl(createOutputStream("Http_Forward.txt"));
         httpResponse.forward("/index.html");
     }
 
     @Test
     void responseRedirect() throws FileNotFoundException {
-        HttpResponse httpResponse = new HttpResponse(createOutputStream("Http_Redirect.txt"));
+        HttpResponse httpResponse = new HttpResponseImpl(createOutputStream("Http_Redirect.txt"));
         httpResponse.sendRedirect("/index.html");
     }
 
     @Test
     void responseCookies() throws FileNotFoundException {
-        HttpResponse httpResponse = new HttpResponse(createOutputStream("Http_Cookie.txt"));
+        HttpResponse httpResponse = new HttpResponseImpl(createOutputStream("Http_Cookie.txt"));
         httpResponse.addHeader("Set-Cookie", "logined=true");
         httpResponse.sendRedirect("/index.html");
     }

@@ -9,7 +9,9 @@ import java.util.Map;
 
 import db.DataBase;
 import http.HttpRequest;
+import http.HttpRequestImpl;
 import http.HttpResponse;
+import http.HttpResponseImpl;
 import model.User;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -30,8 +32,8 @@ public class RequestHandler extends Thread {
                 connection.getPort());
 
         try (InputStream in = connection.getInputStream(); OutputStream out = connection.getOutputStream()) {
-            HttpRequest httpRequest = new HttpRequest(in);
-            HttpResponse httpResponse = new HttpResponse(out);
+            HttpRequest httpRequest = new HttpRequestImpl(in);
+            HttpResponse httpResponse = new HttpResponseImpl(out);
 
             FrontController frontController = new FrontController();
             Controller controller = frontController.getController(httpRequest.getPath());

@@ -11,7 +11,7 @@ class HttpRequestTest {
     @Test
     void request_GET() throws IOException {
         InputStream in = new FileInputStream(new File(testDr + "Http_GET.txt"));
-        HttpRequest request = new HttpRequest(in);
+        HttpRequest request = new HttpRequestImpl(in);
         assertThat(HttpMethod.GET).isEqualTo(request.getMethod());
         assertThat("/user/create").isEqualTo(request.getPath());
         assertThat("keep-alive").isEqualTo(request.getHeader("Connection"));
@@ -21,7 +21,7 @@ class HttpRequestTest {
     @Test
     void request_POST() throws IOException {
         InputStream in = new FileInputStream(new File(testDr + "Http_POST.txt"));
-        HttpRequest request = new HttpRequest(in);
+        HttpRequest request = new HttpRequestImpl(in);
         assertThat(HttpMethod.POST).isEqualTo(request.getMethod());
         assertThat("/user/create").isEqualTo(request.getPath());
         assertThat("keep-alive").isEqualTo(request.getHeader("Connection"));
