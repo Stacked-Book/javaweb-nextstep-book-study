@@ -2,7 +2,7 @@ package support.request;
 
 import java.util.Map;
 
-public class HttpRequestImpl extends HttpRequest {
+public final class HttpRequestImpl extends HttpRequest {
 
     private RequestLine line;
     private RequestHeader header;

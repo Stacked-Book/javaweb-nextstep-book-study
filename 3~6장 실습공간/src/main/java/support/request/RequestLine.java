@@ -1,6 +1,6 @@
 package support.request;
 
-public class RequestLine {
+public final class RequestLine {
     private final RequestMethod method;
     private final RequestUrl url;
     private final RequestVersion version;

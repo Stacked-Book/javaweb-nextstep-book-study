@@ -1,6 +1,6 @@
 package support.request;
 
-public class RequestBody {
+public final class RequestBody {
     private final String body;
 
     public RequestBody() {

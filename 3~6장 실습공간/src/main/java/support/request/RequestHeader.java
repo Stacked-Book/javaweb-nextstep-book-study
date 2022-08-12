@@ -3,9 +3,7 @@ package support.request;
 import java.util.HashMap;
 import java.util.Map;
 
-public class RequestHeader {
-    public static final String DELIMITER = ":";
-
+public final class RequestHeader {
     private final Map<String, String> headers = new HashMap<>();
 
     public RequestHeader() {
