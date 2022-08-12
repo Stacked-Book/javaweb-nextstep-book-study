@@ -6,3 +6,6 @@
 /.idea
 *.iml
 .DS_Store
+
+3~6장 실습공간/target
+3~6장 실습공간/target/classes/*.class
