@@ -11,9 +11,7 @@ public class Header {
     public Header() {
     }
 
-    public void setHeader(String line) {
-        String key = line.split(DELIMITER)[0].trim();
-        String value = line.split(DELIMITER)[1].trim();
+    public void setHeader(String key, String value) {
         headers.put(key, value);
     }
 

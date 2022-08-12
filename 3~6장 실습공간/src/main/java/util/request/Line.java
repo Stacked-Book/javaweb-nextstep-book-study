@@ -11,6 +11,11 @@ public class Line {
         this.version = version;
     }
 
+    public static Line of(String line) {
+        String[] lines = line.split(" ");
+        return new Line(Method.valueOf(lines[0]), Url.of(lines[1]), Version.valueOf(lines[2]));
+    }
+
     public Method getMethod() {
         return method;
     }

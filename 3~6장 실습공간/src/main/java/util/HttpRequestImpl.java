@@ -39,7 +39,6 @@ public class HttpRequestImpl {
 
         if (headers.containsKey(CONTENT_LENGTH.getKey())) {
             String data = IOUtils.readData(reader, Integer.parseInt(headers.get(CONTENT_LENGTH.getKey())));
-            parameters = HttpRequestUtils.parseQueryString(data);
         }
     }
 

@@ -8,7 +8,6 @@ import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 class RequestHeaderTest {
     private static final String KEY = "Content-Type";
     private static final String VALUE = "application/x-www-form-urlencoded";
-    private static final String CONTENT_TYPE = KEY + ": " + VALUE;
 
     @Test
     void getRequestHeader() {
@@ -21,14 +20,14 @@ class RequestHeaderTest {
     void RequestHeader_setHeader() {
         Header header = new Header();
         assertDoesNotThrow(
-            () -> header.setHeader(CONTENT_TYPE)
+            () -> header.setHeader(KEY, VALUE)
         );
     }
 
     @Test
     void RequestHeader_getHeaders() {
         Header header = new Header();
-        header.setHeader(CONTENT_TYPE);
+        header.setHeader(KEY, VALUE);
 
         assertThat(header.getHeaders()).hasSize(1);
     }
@@ -36,7 +35,7 @@ class RequestHeaderTest {
     @Test
     void RequestHeader_getHeader() {
         Header header = new Header();
-        header.setHeader(CONTENT_TYPE);
+        header.setHeader(KEY, VALUE);
 
         assertThat(header.getHeader(KEY)).isEqualTo(VALUE);
     }
@@ -44,7 +43,7 @@ class RequestHeaderTest {
     @Test
     void RequestHeader_contains() {
         Header header = new Header();
-        header.setHeader(CONTENT_TYPE);
+        header.setHeader(KEY, VALUE);
 
         assertThat(header.contains(KEY)).isTrue();
     }
