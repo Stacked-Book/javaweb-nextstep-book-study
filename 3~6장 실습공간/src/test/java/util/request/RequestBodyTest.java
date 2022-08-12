@@ -14,7 +14,7 @@ public class RequestBodyTest {
     @Test
     public void getRequestBody() {
         assertDoesNotThrow(
-            () -> new RequestBody("body")
+            () -> new Body("body")
         );
     }
 
@@ -27,7 +27,7 @@ public class RequestBodyTest {
         String body = "body";
 
         // when
-        RequestBody requestBody = new RequestBody(body);
+        Body requestBody = new Body(body);
 
         // then
         String actual = requestBody.getBody();

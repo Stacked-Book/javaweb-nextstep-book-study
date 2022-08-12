@@ -3,12 +3,12 @@ package util.request;
 import java.util.HashMap;
 import java.util.Map;
 
-public class RequestHeader {
+public class Header {
     public static final String DELIMITER = ":";
 
     private final Map<String, String> headers = new HashMap<>();
 
-    public RequestHeader() {
+    public Header() {
     }
 
     public void setHeader(String line) {

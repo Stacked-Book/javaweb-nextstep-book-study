@@ -13,13 +13,13 @@ class RequestHeaderTest {
     @Test
     void getRequestHeader() {
         assertDoesNotThrow(
-            RequestHeader::new
+            Header::new
         );
     }
 
     @Test
     void RequestHeader_setHeader() {
-        RequestHeader header = new RequestHeader();
+        Header header = new Header();
         assertDoesNotThrow(
             () -> header.setHeader(CONTENT_TYPE)
         );
@@ -27,7 +27,7 @@ class RequestHeaderTest {
 
     @Test
     void RequestHeader_getHeaders() {
-        RequestHeader header = new RequestHeader();
+        Header header = new Header();
         header.setHeader(CONTENT_TYPE);
 
         assertThat(header.getHeaders()).hasSize(1);
@@ -35,7 +35,7 @@ class RequestHeaderTest {
 
     @Test
     void RequestHeader_getHeader() {
-        RequestHeader header = new RequestHeader();
+        Header header = new Header();
         header.setHeader(CONTENT_TYPE);
 
         assertThat(header.getHeader(KEY)).isEqualTo(VALUE);
@@ -43,7 +43,7 @@ class RequestHeaderTest {
 
     @Test
     void RequestHeader_contains() {
-        RequestHeader header = new RequestHeader();
+        Header header = new Header();
         header.setHeader(CONTENT_TYPE);
 
         assertThat(header.contains(KEY)).isTrue();

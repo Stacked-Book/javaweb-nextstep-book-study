@@ -1,9 +1,9 @@
 package util.request;
 
-public class RequestBody {
+public class Body {
     private final String body;
 
-    public RequestBody(String body) {
+    public Body(String body) {
         this.body = body;
     }
 
