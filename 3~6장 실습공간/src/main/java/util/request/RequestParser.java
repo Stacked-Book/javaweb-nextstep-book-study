@@ -8,7 +8,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 
-public class RequestParser {
+public final class RequestParser {
     private static final String END_POINT = "";
     private static final String CONTENT_LENGTH = "Content-Length";
 
@@ -17,9 +17,10 @@ public class RequestParser {
         throw new IllegalArgumentException("Util 클래스입니다.");
     }
 
-    public HttpRequest parser(final InputStream inputStream) throws IOException {
+    public static HttpRequest parser(final InputStream inputStream) throws IOException {
         final BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
         String line = reader.readLine();
+        System.out.println(line);
         Line requestLine = Line.of(line);
 
         Header headers = new Header();

@@ -15,32 +15,41 @@ public class HttpRequestImpl extends HttpRequest {
     }
 
     @Override
-    protected String method() {
+    public String method() {
         return line.getMethod().name();
     }
 
     @Override
-    protected String url() {
+    public String url() {
         return line.getUrl().getPath();
     }
 
     @Override
-    protected String protocol() {
-        return line.getUrl().getProtocol();
+    public String protocol() {
+        return header("protocol");
     }
 
     @Override
-    protected Map<String, String> headers() {
+    public Map<String, String> headers() {
         return header.getHeaders();
     }
 
     @Override
-    protected String header(String key) {
+    public String header(String key) {
         return header.getHeader(key);
     }
 
     @Override
-    protected String content() {
+    public String content() {
         return body.getBody();
+    }
+
+    @Override
+    public String toString() {
+        return "HttpRequestImpl{" +
+            "line=" + line +
+            ", header=" + header +
+            ", body=" + body +
+            '}';
     }
 }

@@ -4,15 +4,17 @@ import java.util.Map;
 
 public abstract class HttpRequest {
 
-    protected abstract String method();
+    public abstract String method();
 
-    protected abstract String url();
+    public abstract String url();
 
-    protected abstract String protocol();
+    public abstract String protocol();
 
-    protected abstract Map<String, String> headers();
+    public abstract Map<String, String> headers();
 
-    protected abstract String header(String key);
+    public abstract String header(String key);
 
-    protected abstract String content();
+    public abstract String content();
+
+    public abstract String toString();
 }
