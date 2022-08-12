@@ -1,6 +1,7 @@
-package util.request;
+package support.request;
 
 import org.junit.jupiter.api.Test;
+import support.request.RequestUrl;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -34,7 +35,7 @@ class RequestUrlTest {
     @Test
     void getRequestUrl() {
         assertDoesNotThrow(
-            () -> Url.of(URL)
+            () -> RequestUrl.of(URL)
         );
     }
 
@@ -43,7 +44,7 @@ class RequestUrlTest {
      */
     @Test
     void getPath() {
-        Url url = Url.of(URL);
+        RequestUrl url = RequestUrl.of(URL);
         assertThat(url.getPath()).isEqualTo(PATH);
     }
 
@@ -53,7 +54,7 @@ class RequestUrlTest {
      */
     @Test
     void getQuery() {
-        Url url = Url.of(URL);
+        RequestUrl url = RequestUrl.of(URL);
         assertThat(url.getQuery()).isEqualTo(QUERY);
     }
 

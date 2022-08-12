@@ -1,6 +1,6 @@
-package util.request;
+package support.request;
 
-public enum Method {
+public enum RequestMethod {
     GET,
     POST;
 

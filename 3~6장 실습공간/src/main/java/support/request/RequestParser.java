@@ -1,4 +1,4 @@
-package util.request;
+package support.request;
 
 import util.HttpRequestUtils;
 import util.IOUtils;
@@ -21,19 +21,19 @@ public final class RequestParser {
         final BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
         String line = reader.readLine();
         System.out.println(line);
-        Line requestLine = Line.of(line);
+        RequestLine requestLine = RequestLine.of(line);
 
-        Header headers = new Header();
+        RequestHeader headers = new RequestHeader();
         while (!(line = reader.readLine()).equals(END_POINT)) {
             HttpRequestUtils.Pair pair = HttpRequestUtils.parseHeader(line);
             headers.setHeader(pair.getKey(), pair.getValue());
         }
 
-        Body body = new Body();
+        RequestBody body = new RequestBody();
 
         if (headers.contains(CONTENT_LENGTH)){
             String data = IOUtils.readData(reader, Integer.parseInt(headers.getHeader(CONTENT_LENGTH)));
-            body = new Body(data);
+            body = new RequestBody(data);
         }
         return new HttpRequestImpl(requestLine, headers, body);
     }

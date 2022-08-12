@@ -1,14 +1,14 @@
-package util.request;
+package support.request;
 
 import java.util.Map;
 
 public class HttpRequestImpl extends HttpRequest {
 
-    private Line line;
-    private Header header;
-    private Body body;
+    private RequestLine line;
+    private RequestHeader header;
+    private RequestBody body;
 
-    public HttpRequestImpl(Line line, Header header, Body body) {
+    public HttpRequestImpl(RequestLine line, RequestHeader header, RequestBody body) {
         this.line = line;
         this.header = header;
         this.body = body;

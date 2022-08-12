@@ -1,6 +1,7 @@
-package util.request;
+package support.request;
 
 import org.junit.jupiter.api.Test;
+import support.request.RequestHeader;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
@@ -12,13 +13,13 @@ class RequestHeaderTest {
     @Test
     void getRequestHeader() {
         assertDoesNotThrow(
-            Header::new
+            RequestHeader::new
         );
     }
 
     @Test
     void RequestHeader_setHeader() {
-        Header header = new Header();
+        RequestHeader header = new RequestHeader();
         assertDoesNotThrow(
             () -> header.setHeader(KEY, VALUE)
         );
@@ -26,7 +27,7 @@ class RequestHeaderTest {
 
     @Test
     void RequestHeader_getHeaders() {
-        Header header = new Header();
+        RequestHeader header = new RequestHeader();
         header.setHeader(KEY, VALUE);
 
         assertThat(header.getHeaders()).hasSize(1);
@@ -34,7 +35,7 @@ class RequestHeaderTest {
 
     @Test
     void RequestHeader_getHeader() {
-        Header header = new Header();
+        RequestHeader header = new RequestHeader();
         header.setHeader(KEY, VALUE);
 
         assertThat(header.getHeader(KEY)).isEqualTo(VALUE);
@@ -42,7 +43,7 @@ class RequestHeaderTest {
 
     @Test
     void RequestHeader_contains() {
-        Header header = new Header();
+        RequestHeader header = new RequestHeader();
         header.setHeader(KEY, VALUE);
 
         assertThat(header.contains(KEY)).isTrue();

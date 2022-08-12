@@ -1,9 +1,9 @@
-package util.request;
+package support.request;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public final class Url {
+public final class RequestUrl {
     private static final String REGEX = "^(?<protocol>[a-zA-Z0-9]*://)?(?<authority>[a-zA-Z0-9.]+)?(?<port>:[0-9]+)?(?<path>/?[a-zA-Z/.&]+)?(?<query>\\?[a-zA-Z0-9=&]+)?$";
     private static final Pattern pattern = Pattern.compile(REGEX);
     private static final String PATH = "path";
@@ -11,12 +11,12 @@ public final class Url {
     private final String path;
     private final String query;
 
-    public Url(String path, String query) {
+    public RequestUrl(String path, String query) {
         this.path = path;
         this.query = query;
     }
 
-    public static Url of(String url) {
+    public static RequestUrl of(String url) {
         Matcher matcher = pattern.matcher(url);
 
         if (!matcher.find()) {
@@ -25,7 +25,7 @@ public final class Url {
         String path = matcher.group(PATH);
         String query = matcher.group(QUERY);
 
-        return new Url(path, query);
+        return new RequestUrl(path, query);
     }
 
     public String getPath() {

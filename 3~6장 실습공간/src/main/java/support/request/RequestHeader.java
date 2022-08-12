@@ -1,14 +1,14 @@
-package util.request;
+package support.request;
 
 import java.util.HashMap;
 import java.util.Map;
 
-public class Header {
+public class RequestHeader {
     public static final String DELIMITER = ":";
 
     private final Map<String, String> headers = new HashMap<>();
 
-    public Header() {
+    public RequestHeader() {
     }
 
     public void setHeader(String key, String value) {

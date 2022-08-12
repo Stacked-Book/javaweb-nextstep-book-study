@@ -1,7 +1,8 @@
-package util.request;
+package support.request;
 
 
 import org.junit.jupiter.api.Test;
+import support.request.RequestBody;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
@@ -14,7 +15,7 @@ public class RequestBodyTest {
     @Test
     public void getRequestBody() {
         assertDoesNotThrow(
-            () -> new Body("body")
+            () -> new RequestBody("body")
         );
     }
 
@@ -27,7 +28,7 @@ public class RequestBodyTest {
         String body = "body";
 
         // when
-        Body requestBody = new Body(body);
+        RequestBody requestBody = new RequestBody(body);
 
         // then
         String actual = requestBody.getBody();

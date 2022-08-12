@@ -1,13 +1,13 @@
-package util.request;
+package support.request;
 
-public class Body {
+public class RequestBody {
     private final String body;
 
-    public Body() {
+    public RequestBody() {
         this.body = null;
     }
 
-    public Body(String body) {
+    public RequestBody(String body) {
         this.body = body;
     }
 

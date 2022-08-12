@@ -1,8 +1,8 @@
-package util.request;
+package support.request;
 
 import java.util.Arrays;
 
-public enum Version {
+public enum RequestVersion {
 
     /**
      * HTTP version 1.1
@@ -16,12 +16,12 @@ public enum Version {
 
     private String version;
 
-    Version(String version) {
+    RequestVersion(String version) {
         this.version = version;
     }
 
-    public static Version of(String version) {
-       return Arrays.stream(Version.values())
+    public static RequestVersion of(String version) {
+       return Arrays.stream(RequestVersion.values())
            .filter(findVersion -> findVersion.version.equals(version))
            .findFirst().orElseThrow(IllegalArgumentException::new);
     }
