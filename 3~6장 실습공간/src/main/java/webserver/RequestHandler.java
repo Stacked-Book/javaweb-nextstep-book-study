@@ -2,18 +2,13 @@ package webserver;
 
 import java.io.*;
 import java.net.Socket;
-import java.util.Collection;
-import java.util.Map;
 
 import controller.Controller;
-import db.DataBase;
-import http.HttpRequest;
-import http.HttpResponse;
-import http.RequestMapping;
-import model.User;
+import request.HttpRequest;
+import response.HttpResponse;
+import request.RequestMapping;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import util.HttpRequestUtils;
 
 
 public class RequestHandler extends Thread {

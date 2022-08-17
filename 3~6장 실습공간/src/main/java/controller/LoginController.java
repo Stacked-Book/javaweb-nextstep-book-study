@@ -1,8 +1,8 @@
 package controller;
 
 import db.DataBase;
-import http.HttpRequest;
-import http.HttpResponse;
+import request.HttpRequest;
+import response.HttpResponse;
 import model.User;
 
 public class LoginController implements Controller {

@@ -1,4 +1,4 @@
-package http;
+package request;
 
 import constants.HttpConst;
 import constants.HttpMethod;
@@ -6,6 +6,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import util.HttpRequestUtils;
 
+import java.io.BufferedReader;
 import java.util.HashMap;
 import java.util.Map;
 

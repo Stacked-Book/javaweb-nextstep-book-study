@@ -1,8 +1,8 @@
 package controller;
 
 import constants.HttpMethod;
-import http.HttpRequest;
-import http.HttpResponse;
+import request.HttpRequest;
+import response.HttpResponse;
 
 public abstract class AbstractController implements Controller {
 
