@@ -3,10 +3,10 @@ package http.request;
 import java.util.HashMap;
 import java.util.Map;
 
-public final class RequestHeader {
+public final class RequestHeaders {
     private final Map<String, String> headers = new HashMap<>();
 
-    public RequestHeader() {
+    public RequestHeaders() {
     }
 
     public void setHeader(String key, String value) {

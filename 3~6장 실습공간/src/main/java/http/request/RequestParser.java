@@ -23,7 +23,7 @@ public final class RequestParser {
         System.out.println(line);
         RequestLine requestLine = RequestLine.of(line);
 
-        RequestHeader headers = new RequestHeader();
+        RequestHeaders headers = new RequestHeaders();
         while (!(line = reader.readLine()).equals(END_POINT)) {
             HttpRequestUtils.Pair pair = HttpRequestUtils.parseHeader(line);
             headers.setHeader(pair.getKey(), pair.getValue());

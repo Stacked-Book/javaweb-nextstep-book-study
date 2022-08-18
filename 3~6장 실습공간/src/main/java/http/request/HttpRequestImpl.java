@@ -5,10 +5,10 @@ import java.util.Map;
 public final class HttpRequestImpl extends HttpRequest {
 
     private RequestLine line;
-    private RequestHeader header;
+    private RequestHeaders header;
     private RequestBody body;
 
-    public HttpRequestImpl(RequestLine line, RequestHeader header, RequestBody body) {
+    public HttpRequestImpl(RequestLine line, RequestHeaders header, RequestBody body) {
         this.line = line;
         this.header = header;
         this.body = body;
