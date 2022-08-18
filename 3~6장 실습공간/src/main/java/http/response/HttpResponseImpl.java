@@ -3,14 +3,14 @@ package http.response;
 import java.util.Map;
 
 public class HttpResponseImpl implements HttpResponse {
-    private final String responseLine;
-    private final Map<String, String> headers;
-    private final String body;
+    private final ResponseLine responseLine;
+    private final ResponseHeaders headers;
+    private final ResponseBody body;
 
     private HttpResponseImpl(String responseLine, Map<String, String> headers, String body) {
-        this.responseLine = responseLine;
-        this.headers = headers;
-        this.body = body;
+        this.responseLine = new ResponseLine(responseLine);
+        this.headers = new ResponseHeaders(headers);
+        this.body = new ResponseBody(body);
     }
 
     public HttpResponseImpl(Builder builder) {
@@ -19,17 +19,17 @@ public class HttpResponseImpl implements HttpResponse {
 
     @Override
     public String getResponseLine() {
-        return responseLine;
+        return responseLine.getResponseLine();
     }
 
     @Override
     public Map<String, String> getHeaders() {
-        return headers;
+        return headers.getHeaders();
     }
 
     @Override
     public String getBody() {
-        return body;
+        return body.getBody();
     }
 
     public static class Builder {
