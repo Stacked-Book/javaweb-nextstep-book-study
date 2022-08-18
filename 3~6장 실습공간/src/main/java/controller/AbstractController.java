@@ -2,12 +2,12 @@ package controller;
 
 import constants.HttpMethod;
 import request.HttpRequest;
-import response.HttpResponse;
+import response.HttpResponseImpl;
 
 public abstract class AbstractController implements Controller {
 
     @Override
-    public void service(HttpRequest request, HttpResponse response) {
+    public void service(HttpRequest request, HttpResponseImpl response) {
         HttpMethod method = request.getMethod();
 
         if (method.isPost()) {
@@ -17,11 +17,11 @@ public abstract class AbstractController implements Controller {
         }
     }
 
-    protected void doPost(HttpRequest request, HttpResponse response) {
+    protected void doPost(HttpRequest request, HttpResponseImpl response) {
 
     }
 
-    protected void doGet(HttpRequest request, HttpResponse response) {
+    protected void doGet(HttpRequest request, HttpResponseImpl response) {
 
     }
 }

@@ -2,7 +2,7 @@ package controller;
 
 import db.DataBase;
 import request.HttpRequest;
-import response.HttpResponse;
+import response.HttpResponseImpl;
 import model.User;
 import util.HttpRequestUtils;
 
@@ -13,7 +13,7 @@ import java.util.Map;
 public class ListUserController extends AbstractController {
 
     @Override
-    protected void doGet(HttpRequest request, HttpResponse response) {
+    protected void doGet(HttpRequest request, HttpResponseImpl response) {
         if (!isLogin(request.getHeader("Cookie"))) {
             response.sendRedirect("/user/login.html");
             return;
