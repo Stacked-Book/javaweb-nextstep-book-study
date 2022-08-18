@@ -32,7 +32,7 @@ import static util.Url.USER_LIST;
 import static util.Url.USER_LIST_PAGE;
 import static util.Url.isCSS;
 
-public class V0RequestHandler implements RequestHandler {
+public class V0RequestHandler extends Thread {
     private static final Logger log = LoggerFactory.getLogger(V0RequestHandler.class);
     private static final String REGEX = " ";
     private final Socket connection;
