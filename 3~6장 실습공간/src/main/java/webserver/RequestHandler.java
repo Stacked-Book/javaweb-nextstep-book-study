@@ -2,18 +2,13 @@ package webserver;
 
 import java.io.*;
 import java.net.Socket;
-import java.util.Collection;
-import java.util.Map;
 
 import controller.Controller;
-import db.DataBase;
-import http.HttpRequest;
-import http.HttpResponse;
-import http.RequestMapping;
-import model.User;
+import request.HttpRequest;
+import response.HttpResponseImpl;
+import request.RequestMapping;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import util.HttpRequestUtils;
 
 
 public class RequestHandler extends Thread {
@@ -32,7 +27,7 @@ public class RequestHandler extends Thread {
         try (InputStream in = connection.getInputStream(); OutputStream out = connection.getOutputStream()) {
             // TODO 사용자 요청에 대한 처리는 이 곳에 구현하면 된다.
             HttpRequest request = new HttpRequest(in);
-            HttpResponse response = new HttpResponse(out);
+            HttpResponseImpl response = new HttpResponseImpl(out);
 
             Controller controller = RequestMapping.getController(request.getPath());
             if (controller == null) {

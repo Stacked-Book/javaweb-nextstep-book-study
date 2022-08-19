@@ -1,6 +1,6 @@
 package http;
 
-import http.HttpResponse;
+import response.HttpResponseImpl;
 import org.junit.Test;
 
 import java.io.File;
@@ -18,15 +18,15 @@ public class HttpResponseTest {
 
     @Test
     public void responseForward() throws Exception {
-        HttpResponse response
-                = new HttpResponse(createOutputStream("Http_Forward.txt"));
+        HttpResponseImpl response
+                = new HttpResponseImpl(createOutputStream("Http_Forward.txt"));
         response.forward("/index.html");
     }
 
     @Test
     public void responseRedirect() throws Exception {
-        HttpResponse response
-                = new HttpResponse(createOutputStream("Http_Redirect.txt"));
+        HttpResponseImpl response
+                = new HttpResponseImpl(createOutputStream("Http_Redirect.txt"));
         response.sendRedirect("/index.html");
     }
 

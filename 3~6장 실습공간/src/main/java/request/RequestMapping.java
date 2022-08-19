@@ -1,4 +1,4 @@
-package http;
+package request;
 
 import controller.Controller;
 import controller.CreateUserController;

@@ -1,14 +1,14 @@
 package controller;
 
 import db.DataBase;
-import http.HttpRequest;
-import http.HttpResponse;
+import request.HttpRequest;
+import response.HttpResponseImpl;
 import model.User;
 
 public class LoginController implements Controller {
 
     @Override
-    public void service(HttpRequest request, HttpResponse response) {
+    public void service(HttpRequest request, HttpResponseImpl response) {
         User user = DataBase.findUserById(request.getParameter("userId"));
         if (user != null) {
             if (user.login(request.getParameter("password"))) {

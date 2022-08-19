@@ -1,4 +1,4 @@
-package http;
+package response;
 
 import constants.HttpConst;
 import org.slf4j.Logger;
@@ -13,21 +13,18 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
-public class HttpResponse {
+public class HttpResponseImpl implements HttpResponse {
 
-    private static final Logger log = LoggerFactory.getLogger(HttpResponse.class);
+    private static final Logger log = LoggerFactory.getLogger(HttpResponseImpl.class);
 
     private DataOutputStream dos = null;
     private Map<String, String> headers = new HashMap<>();
 
-    public HttpResponse(OutputStream out) {
+    public HttpResponseImpl(OutputStream out) {
         dos = new DataOutputStream(out);
     }
 
-    public void addHeader(String header, String value) {
-        headers.put(header, value);
-    }
-
+    @Override
     public void forward(String url) {
         try {
             byte[] body = Files.readAllBytes(new File("./3~6장 실습공간/webapp", url).toPath());
@@ -48,6 +45,7 @@ public class HttpResponse {
         }
     }
 
+    @Override
     public void forwardBody(String body) {
         byte[] contents = body.getBytes();
         headers.put(HttpConst.CONTENT_TYPE, "text/html;charset=utf-8");
@@ -56,6 +54,7 @@ public class HttpResponse {
         responseBody(contents);
     }
 
+    @Override
     public void response200Header() {
         try {
             dos.writeBytes("HTTP/1.1 200 OK \r\n");
@@ -66,6 +65,7 @@ public class HttpResponse {
         }
     }
 
+    @Override
     public void responseBody(byte[] body) {
         try {
             dos.write(body, 0, body.length);
@@ -76,6 +76,7 @@ public class HttpResponse {
         }
     }
 
+    @Override
     public void sendRedirect(String path) {
         try {
             dos.writeBytes("HTTP/1.1 302 Found \r\n");
@@ -85,6 +86,9 @@ public class HttpResponse {
         } catch (IOException e) {
             log.error(e.getMessage());
         }
+    }
+    public void addHeader(String header, String value) {
+        headers.put(header, value);
     }
 
     public void processHeaders() {
@@ -97,6 +101,5 @@ public class HttpResponse {
             log.error(e.getMessage());
         }
     }
-
 
 }
