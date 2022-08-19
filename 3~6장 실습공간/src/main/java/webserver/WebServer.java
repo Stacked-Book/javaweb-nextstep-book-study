@@ -1,9 +1,7 @@
 package webserver;
 
-import db.DataBaseImpl;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import service.UserService;
 
 import java.net.ServerSocket;
 import java.net.Socket;
@@ -21,15 +19,15 @@ public class WebServer {
         }
 
         // 서버소켓을 생성한다. 웹서버는 기본적으로 8080번 포트를 사용한다.
-
         try (ServerSocket listenSocket = new ServerSocket(port)) {
             log.info("Web Application Server started {} port.", port);
 
             // 클라이언트가 연결될때까지 대기한다.
             Socket connection;
             while ((connection = listenSocket.accept()) != null) {
-                V0RequestHandler requestHandler = new V0RequestHandler(connection, new UserService(new DataBaseImpl()));
-                requestHandler.run();
+                V1RequestHandler requestHandler = new V1RequestHandler(connection);
+                Thread thread = new Thread(requestHandler);
+                thread.start();
             }
         }
     }

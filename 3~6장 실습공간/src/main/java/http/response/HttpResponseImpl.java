@@ -7,7 +7,7 @@ public class HttpResponseImpl implements HttpResponse {
     private final ResponseHeaders headers;
     private final ResponseBody body;
 
-    private HttpResponseImpl(String responseLine, Map<String, String> headers, String body) {
+    private HttpResponseImpl(String responseLine, Map<String, String> headers, byte[] body) {
         this.responseLine = new ResponseLine(responseLine);
         this.headers = new ResponseHeaders(headers);
         this.body = new ResponseBody(body);
@@ -28,14 +28,14 @@ public class HttpResponseImpl implements HttpResponse {
     }
 
     @Override
-    public String getBody() {
+    public byte[] getBody() {
         return body.getBody();
     }
 
     public static class Builder {
         private String responseLine;
         private Map<String, String> headers;
-        private String body;
+        private byte[] body;
 
         public Builder() {
         }
@@ -50,7 +50,7 @@ public class HttpResponseImpl implements HttpResponse {
             return this;
         }
 
-        public Builder body(String body) {
+        public Builder body(byte[] body) {
             this.body = body;
             return this;
         }

@@ -1,13 +1,13 @@
 package http.response;
 
 public class ResponseBody {
-    private String body;
+    private byte[] body;
 
-    public ResponseBody(String body) {
+    public ResponseBody(byte[] body) {
         this.body = body;
     }
 
-    public String getBody() {
+    public byte[] getBody() {
         return body;
     }
 }

@@ -5,5 +5,5 @@ import java.util.Map;
 public interface HttpResponse {
     String getResponseLine();
     Map<String, String> getHeaders();
-    String getBody();
+    byte[] getBody();
 }
