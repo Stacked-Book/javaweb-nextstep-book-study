@@ -44,7 +44,7 @@ public class WebServerTest {
             .then().log().all().extract();
 
         assertThat(회원가입_요청.statusCode()).isEqualTo(HttpStatus.SC_MOVED_TEMPORARILY);
-        assertThat(회원가입_요청.headers().get("Location").getValue()).isEqualTo("http://localhost:8080/index.html");
+        assertThat(회원가입_요청.headers().get("Location").getValue()).isEqualTo("/index.html");
 
     }
 
@@ -69,7 +69,7 @@ public class WebServerTest {
             .then().log().all().extract();
 
         assertThat(로그인_요청.statusCode()).isEqualTo(HttpStatus.SC_MOVED_TEMPORARILY);
-        assertThat(로그인_요청.headers().get("Location").getValue()).isEqualTo("http://localhost:8080/index.html");
+        assertThat(로그인_요청.headers().get("Location").getValue()).isEqualTo("/index.html");
         assertThat(로그인_요청.cookie("logined")).isEqualTo("true");
 
     }
@@ -86,7 +86,7 @@ public class WebServerTest {
             .then().log().all().extract();
 
         assertThat(로그인_요청.statusCode()).isEqualTo(HttpStatus.SC_MOVED_TEMPORARILY);
-        assertThat(로그인_요청.headers().get("Location").getValue()).isEqualTo("http://localhost:8080/user/login_failed.html");
+        assertThat(로그인_요청.headers().get("Location").getValue()).isEqualTo("/user/login_failed.html");
         assertThat(로그인_요청.cookie("logined")).isEqualTo("false");
 
     }

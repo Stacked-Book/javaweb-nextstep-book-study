@@ -29,7 +29,7 @@ public final class RequestLine {
     }
 
     public String getParameter(String key) {
-        return null;
+        return url.getParameter(key);
     }
 
     @Override

@@ -4,7 +4,7 @@ import java.util.Map;
 
 public interface HttpRequest {
 
-    String method();
+    RequestMethod method();
 
     String url();
 
@@ -19,4 +19,8 @@ public interface HttpRequest {
     String toString();
 
     String parameter(String key);
+
+    boolean isLogined();
+
+    String bodyParameter(String key);
 }

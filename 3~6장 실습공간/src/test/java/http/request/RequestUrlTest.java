@@ -14,7 +14,7 @@ class RequestUrlTest {
     private static final String QUERY = "?itme=1";
     private static final String FRAGMENT = "";
     public static final String URL = PATH + QUERY + FRAGMENT;
-    private static final String URL2 = "http://localhost:8080/user/create?userId=geonc123&password=1234&name=this#1234";
+    private static final String URL2 = "http://localhost:8080/user/create?userId=geonc123&password=1234&name=this";
 
     @Test
     void regex_test() {
@@ -52,9 +52,11 @@ class RequestUrlTest {
      * Url은 QUERY 정보를 가지고 있습니다.
      */
     @Test
-    void getQuery() {
-        RequestUrl url = RequestUrl.of(URL);
-        assertThat(url.getQuery()).isEqualTo(QUERY);
+    void getParameters() {
+        RequestUrl url = RequestUrl.of(URL2);
+        assertThat(url.getParameter("userId")).isEqualTo("geonc123");
+        assertThat(url.getParameter("password")).isEqualTo("1234");
+        assertThat(url.getParameter("name")).isEqualTo("this");
     }
 
 }

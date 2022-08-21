@@ -38,12 +38,7 @@ public class ResponseParser {
             }
             headers.put("Content-Length", body.length + "");
 
-            HttpResponse httpResponse = new HttpResponseImpl
-                .Builder()
-                .responseLine("HTTP/1.1 200 OK")
-                .headers(headers)
-                .body(body)
-                .build();
+            HttpResponse httpResponse = getHttpResponseOk(headers, body);
 
             parser(httpResponse);
 
@@ -52,18 +47,65 @@ public class ResponseParser {
         }
     }
 
+    public void forwardBody(String body) {
+        Map<String, String> headers = new HashMap<>();
+        byte[] contents = body.getBytes();
+        headers.put("Content-Type", "text/html;charset=utf-8");
+        headers.put("Content-Length", contents.length + "");
+
+        HttpResponse httpResponse = getHttpResponseOk(headers, contents);
+
+        parser(httpResponse);
+    }
+
+
+
+    public void loginSuccess() {
+        Map<String, String> headers = new HashMap<>();
+        headers.put("Set-Cookie", "logined=true");
+        headers.put("Location", "/index.html");
+
+        HttpResponseImpl response = getHttpResponseRedirect(headers);
+
+        parser(response);
+    }
+
+    public void loginFailed() {
+        Map<String, String> headers = new HashMap<>();
+        headers.put("Set-Cookie", "logined=false");
+        headers.put("Location", "/user/login_failed.html");
+
+        HttpResponseImpl response = getHttpResponseRedirect(headers);
+
+        parser(response);
+    }
+
+
     public void sendRedirect(String redirectUrl) {
 
         Map<String, String> headers = new HashMap<>();
         headers.put("Location", redirectUrl);
 
-        HttpResponse httpResponse = new HttpResponseImpl
+        HttpResponseImpl response = getHttpResponseRedirect(headers);
+
+        parser(response);
+    }
+
+    private HttpResponse getHttpResponseOk(Map<String, String> headers, byte[] contents) {
+        return new HttpResponseImpl
+            .Builder()
+            .responseLine("HTTP/1.1 200 OK")
+            .headers(headers)
+            .body(contents)
+            .build();
+    }
+
+    private HttpResponseImpl getHttpResponseRedirect(Map<String, String> headers) {
+        return new HttpResponseImpl
             .Builder()
             .responseLine("HTTP/1.1 302 Found")
             .headers(headers)
             .build();
-
-        parser(httpResponse);
     }
 
     private void parser(final HttpResponse response) {

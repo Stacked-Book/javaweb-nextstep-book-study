@@ -1,19 +1,22 @@
 package http.request;
 
+import util.HttpRequestUtils;
+
+import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public final class RequestUrl {
-    private static final String REGEX = "^(?<protocol>[a-zA-Z0-9]*://)?(?<authority>[a-zA-Z0-9.]+)?(?<port>:[0-9]+)?(?<path>/?[a-zA-Z/.&]+)?(?<query>\\?[a-zA-Z0-9=&]+)?$";
+    private static final String REGEX = "^(?<protocol>[a-zA-Z0-9]*://)?(?<authority>[a-zA-Z0-9.]+)?(?<port>:[0-9]+)?(?<path>/?[a-zA-Z/.&]+)?\\??(?<query>[a-zA-Z0-9=&]+)?$";
     private static final Pattern pattern = Pattern.compile(REGEX);
     private static final String PATH = "path";
     private static final String QUERY = "query";
     private final String path;
-    private final String query;
+    private final Map<String, String> parameters;
 
     public RequestUrl(String path, String query) {
         this.path = path;
-        this.query = query;
+        parameters = HttpRequestUtils.parseQueryString(query);
     }
 
     public static RequestUrl of(String url) {
@@ -32,16 +35,17 @@ public final class RequestUrl {
         return path;
     }
 
-    public String getQuery() {
-        return query;
+    public String getParameter(String key) {
+        return parameters.get(key);
     }
-
 
     @Override
     public String toString() {
         return "Url{" +
             " path='" + path + '\'' +
-            ", query='" + query + '\'' +
+            ", query='" + parameters + '\'' +
             '}';
     }
+
+
 }

@@ -1,16 +1,21 @@
 package http.request;
 
-import java.util.HashMap;
+import util.HttpRequestUtils;
+
+import java.util.Collections;
 import java.util.Map;
 
 public final class RequestHeaders {
-    private final Map<String, String> headers = new HashMap<>();
+    private final Map<String, String> headers;
+    private final Map<String, String> cookies;
 
-    public RequestHeaders() {
-    }
-
-    public void setHeader(String key, String value) {
-        headers.put(key, value);
+    public RequestHeaders(Map<String, String> params) {
+        headers = params;
+        if (!params.containsKey("Cookie")) {
+            cookies = Collections.emptyMap();
+            return;
+        }
+        cookies = HttpRequestUtils.parseCookies(params.get("Cookie"));
     }
 
     public Map<String, String> getHeaders() {
@@ -30,5 +35,9 @@ public final class RequestHeaders {
         return "Header{" +
             "headers=" + headers +
             '}';
+    }
+
+    public boolean isLogined() {
+        return cookies.size() != 0 && cookies.containsKey("logined") && !cookies.get("logined").equals("false");
     }
 }

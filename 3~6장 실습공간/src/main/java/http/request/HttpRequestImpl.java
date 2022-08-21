@@ -15,8 +15,8 @@ public final class HttpRequestImpl implements HttpRequest {
     }
 
     @Override
-    public String method() {
-        return line.getMethod().name();
+    public RequestMethod method() {
+        return line.getMethod();
     }
 
     @Override
@@ -45,8 +45,18 @@ public final class HttpRequestImpl implements HttpRequest {
     }
 
     @Override
+    public boolean isLogined() {
+        return header.isLogined();
+    }
+
+    @Override
     public String content() {
         return body.getBody();
+    }
+
+    @Override
+    public String bodyParameter(String key) {
+        return body.getParameter(key);
     }
 
     @Override

@@ -1,5 +1,7 @@
 package http.request;
 
+import util.HttpRequestUtils;
+
 public final class RequestBody {
     private final String body;
 
@@ -15,10 +17,15 @@ public final class RequestBody {
         return this.body;
     }
 
+    public String getParameter(String key) {
+        return HttpRequestUtils.parseQueryString(body).get(key);
+    }
+
     @Override
     public String toString() {
         return "Body{" +
             "body=" + body +
             '}';
     }
+
 }
