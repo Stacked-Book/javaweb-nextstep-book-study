@@ -28,8 +28,8 @@ public class V1RequestHandler implements Runnable {
         try (InputStream in = connection.getInputStream(); OutputStream out = connection.getOutputStream()) {
             HttpRequest httpRequest = RequestParser.parser(in);
             log.info("Parse Request : {}", httpRequest);
-            DataOutputStream dos = new DataOutputStream(out);
-            ResponseParser.forward(dos, httpRequest.url());
+            ResponseParser responseParser = new ResponseParser(out);
+            responseParser.forward(httpRequest.url());
         } catch (IOException e) {
             log.error(e.getMessage());
         }

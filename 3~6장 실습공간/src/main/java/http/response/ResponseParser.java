@@ -7,6 +7,7 @@ import org.slf4j.LoggerFactory;
 import java.io.DataOutputStream;
 import java.io.File;
 import java.io.IOException;
+import java.io.OutputStream;
 import java.nio.file.Files;
 import java.util.HashMap;
 import java.util.Map;
@@ -17,11 +18,16 @@ public class ResponseParser {
     private static final String END_LINE = "\r\n";
     private static final String CONTENT_LENGTH = "Content-Length";
     private static final String HEADER_SPLITTER = ": ";
+    public final DataOutputStream dos;
 
-    public static void forward(DataOutputStream out, String url) {
-        Map<String, String> headers = new HashMap<>();
+    public ResponseParser(OutputStream outputStream) {
+        this.dos = new DataOutputStream(outputStream);
+    }
 
+    public void forward(String url) {
         try {
+            Map<String, String> headers = new HashMap<>();
+
             final byte[] body = Files.readAllBytes(new File("./3~6장 실습공간/webapp" + url).toPath());
             if (url.endsWith(".css")) {
                 headers.put("Content-Type", "text/css");
@@ -39,51 +45,65 @@ public class ResponseParser {
                 .body(body)
                 .build();
 
-            parser(out, httpResponse);
+            parser(httpResponse);
 
         } catch (IOException e) {
             log.error(e.getMessage());
         }
     }
 
-    private static void parser(final DataOutputStream out, final HttpResponse response) {
-        writeLine(out, response);
+    public void sendRedirect(String redirectUrl) {
+
+        Map<String, String> headers = new HashMap<>();
+        headers.put("Location", redirectUrl);
+
+        HttpResponse httpResponse = new HttpResponseImpl
+            .Builder()
+            .responseLine("HTTP/1.1 302 Found")
+            .headers(headers)
+            .build();
+
+        parser(httpResponse);
+    }
+
+    private void parser(final HttpResponse response) {
+        writeLine(response);
 
         response.getHeaders().forEach(
-            (key, value) -> writeKey(out, key, value)
+            (key, value) -> writeKey(key, value)
         );
 
-        writeSplitLine(out);
+        writeSplitLine();
 
         if (response.getHeaders().containsKey(CONTENT_LENGTH)) {
-            writeBody(out, response.getBody());
+            writeBody(response.getBody());
         }
     }
 
-    private static void writeLine(DataOutputStream out, HttpResponse response) {
-        writeStream(out, response.getResponseLine());
+    private void writeLine(HttpResponse response) {
+        writeStream(response.getResponseLine());
     }
 
-    private static void writeKey(DataOutputStream out, String key, String value) {
-        writeStream(out, key + HEADER_SPLITTER + value);
+    private void writeKey(String key, String value) {
+        writeStream(key + HEADER_SPLITTER + value);
     }
 
-    private static void writeSplitLine(DataOutputStream out) {
-        writeStream(out, END_RESPONSE);
+    private void writeSplitLine() {
+        writeStream(END_RESPONSE);
     }
 
-    private static void writeStream(DataOutputStream out, String text) {
+    private void writeStream(String text) {
         try {
-            out.writeBytes(text + END_LINE);
+            dos.writeBytes(text + END_LINE);
         } catch (IOException e) {
             log.error(e.getMessage());
         }
     }
 
-    private static void writeBody(DataOutputStream out, byte[] body) {
+    private void writeBody(byte[] body) {
         try {
-            out.write(body, 0, body.length);
-            out.flush();
+            dos.write(body, 0, body.length);
+            dos.flush();
         } catch (IOException e) {
             log.error(e.getMessage());
         }
