@@ -28,6 +28,10 @@ public final class RequestLine {
         return version;
     }
 
+    public String getParameter(String key) {
+        return null;
+    }
+
     @Override
     public String toString() {
         return "Line{" +
@@ -36,4 +40,5 @@ public final class RequestLine {
             ", version=" + version +
             '}';
     }
+
 }

@@ -1,7 +1,6 @@
 package http.request;
 
 import org.junit.jupiter.api.Test;
-import util.HttpRequestImpl;
 
 import java.io.File;
 import java.io.IOException;
@@ -24,27 +23,27 @@ public class HttpRequestTest {
     @Test
     public void request_GET() throws IOException {
         InputStream in = Files.newInputStream(new File(testDirectory + "Http_GET.txt").toPath());
-        HttpRequestImpl request = new HttpRequestImpl(in);
+        HttpRequest request = RequestParser.parser(in);
 
-        assertEquals(GET, request.getMethod());
-        assertEquals(URL_CREATE, request.getPath());
-        assertEquals(CONNECTION, request.getHeader("Connection"));
-        assertEquals(USER_ID, request.getParameter("userId"));
-        assertEquals(NAME, request.getParameter("name"));
-        assertEquals(PASSWORD, request.getParameter("password"));
+        assertEquals(GET, request.method());
+        assertEquals(URL_CREATE, request.url());
+        assertEquals(CONNECTION, request.header("Connection"));
+        assertEquals(USER_ID, request.parameter("userId"));
+        assertEquals(NAME, request.parameter("name"));
+        assertEquals(PASSWORD, request.parameter("password"));
     }
 
 
     @Test
     public void request_POST() throws IOException {
         InputStream in = Files.newInputStream(new File(testDirectory + "Http_POST.txt").toPath());
-        HttpRequestImpl request = new HttpRequestImpl(in);
+        HttpRequest request = RequestParser.parser(in);
 
-        assertEquals(POST, request.getMethod());
-        assertEquals(URL_CREATE, request.getPath());
-        assertEquals(CONNECTION, request.getHeader("Connection"));
-        assertEquals(USER_ID, request.getParameter("userId"));
-        assertEquals(NAME, request.getParameter("name"));
-        assertEquals(PASSWORD, request.getParameter("password"));
+        assertEquals(GET, request.method());
+        assertEquals(URL_CREATE, request.url());
+        assertEquals(CONNECTION, request.header("Connection"));
+        assertEquals(USER_ID, request.parameter("userId"));
+        assertEquals(NAME, request.parameter("name"));
+        assertEquals(PASSWORD, request.parameter("password"));
     }
 }

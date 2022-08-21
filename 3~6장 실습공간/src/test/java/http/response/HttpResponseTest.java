@@ -26,7 +26,7 @@ class HttpResponseTest {
         HttpResponse response = new HttpResponseImpl.Builder()
             .responseLine(responseLine)
             .headers(headers)
-            .body(body)
+            .body(body.getBytes())
             .build();
 
         assertThat(response.getResponseLine()).isEqualTo(responseLine);

@@ -17,4 +17,6 @@ public interface HttpRequest {
     String content();
 
     String toString();
+
+    String parameter(String key);
 }

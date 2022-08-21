@@ -40,6 +40,11 @@ public final class HttpRequestImpl implements HttpRequest {
     }
 
     @Override
+    public String parameter(String key) {
+        return line.getParameter(key);
+    }
+
+    @Override
     public String content() {
         return body.getBody();
     }

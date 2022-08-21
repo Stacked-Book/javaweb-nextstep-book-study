@@ -6,6 +6,7 @@ import http.response.ResponseParser;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -27,12 +28,8 @@ public class V1RequestHandler implements Runnable {
         try (InputStream in = connection.getInputStream(); OutputStream out = connection.getOutputStream()) {
             HttpRequest httpRequest = RequestParser.parser(in);
             log.info("Parse Request : {}", httpRequest);
-
-            if (httpRequest.url().equals("/index.html")) {
-                log.info("Move to main form");
-                ResponseParser.responseDefaultPage(out);
-            }
-
+            DataOutputStream dos = new DataOutputStream(out);
+            ResponseParser.forward(dos, httpRequest.url());
         } catch (IOException e) {
             log.error(e.getMessage());
         }
