@@ -2,19 +2,19 @@ package http.request;
 
 import java.util.Map;
 
-public abstract class HttpRequest {
+public interface HttpRequest {
 
-    public abstract String method();
+    String method();
 
-    public abstract String url();
+    String url();
 
-    public abstract String protocol();
+    String protocol();
 
-    public abstract Map<String, String> headers();
+    Map<String, String> headers();
 
-    public abstract String header(String key);
+    String header(String key);
 
-    public abstract String content();
+    String content();
 
-    public abstract String toString();
+    String toString();
 }
