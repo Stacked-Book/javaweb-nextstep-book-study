@@ -1,11 +1,17 @@
 package http.response;
 
+import http.header.MediaType;
 import http.request.RequestParser;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.DataOutputStream;
+import java.io.File;
 import java.io.IOException;
+import java.io.OutputStream;
+import java.nio.file.Files;
+import java.util.HashMap;
+import java.util.Map;
 
 public class ResponseParser {
     private static final Logger log = LoggerFactory.getLogger(RequestParser.class);
@@ -27,6 +33,24 @@ public class ResponseParser {
             writeBody(out, response.getBody());
         }
 
+    }
+
+    public static void responseDefaultPage(OutputStream out) throws IOException {
+        final byte[] body = Files.readAllBytes(new File("./3~6장 실습공간/webapp/index.html").toPath());
+        final DataOutputStream dos = new DataOutputStream(out);
+
+        Map<String, String> headers = new HashMap<>();
+        headers.put("Content-Type", MediaType.TEXT_HTML.value());
+        headers.put("Content-Length", body.length + "");
+
+        HttpResponse httpResponse = new HttpResponseImpl
+            .Builder()
+            .responseLine("HTTP/1.1 200 OK")
+            .headers(headers)
+            .body(body)
+            .build();
+
+        parser(dos, httpResponse);
     }
 
     private static void writeLine(DataOutputStream out, HttpResponse response) {
@@ -57,4 +81,6 @@ public class ResponseParser {
             log.error(e.getMessage());
         }
     }
+
+
 }
