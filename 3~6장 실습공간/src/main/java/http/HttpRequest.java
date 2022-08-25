@@ -23,6 +23,7 @@ public class HttpRequest {
      * InputStream을 생성자 인자로 받아 InputStream에 담긴 데이터를 필요 형태로 분리 후 필드에 저장
      * */
     public HttpRequest(InputStream in) {
+
         try {
             BufferedReader br = new BufferedReader( new InputStreamReader(in,"UTF-8"));
             String line = br.readLine();
@@ -32,7 +33,6 @@ public class HttpRequest {
             requestLine = new RequestLine(line);
 //            processRequestLine(line);
 
-            line = br.readLine();
             while (!line.equals("")) {
                 log.debug("header : {}", line);
                 String[] tokens = line.split(":");
@@ -40,12 +40,13 @@ public class HttpRequest {
                 line = br.readLine();
             }
 
-            if("POST".equals(getMethod())) {
+            if((getMethod().isPost())) {
                 String body = IOUtils.readData(br,
                         Integer.parseInt(headers.get("Content-Length")));
                 params = HttpRequestUtils.parseQueryString(body);
             } else {
                 params = requestLine.getParams();
+                log.debug("params : {}", params);
             }
         } catch (IllegalAccessException | IOException e) {
             log.error(e.getMessage());
