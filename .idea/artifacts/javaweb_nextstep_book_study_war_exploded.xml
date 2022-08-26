@@ -1,0 +1,13 @@
+<component name="ArtifactManager">
+  <artifact type="exploded-war" name="javaweb-nextstep-book-study:war exploded">
+    <output-path>$PROJECT_DIR$/out/artifacts/javaweb_nextstep_book_study_war_exploded</output-path>
+    <root id="root">
+      <element id="javaee-facet-resources" facet="javaweb-nextstep-book-study/web/Web" />
+      <element id="directory" name="WEB-INF">
+        <element id="directory" name="classes">
+          <element id="module-output" name="javaweb-nextstep-book-study" />
+        </element>
+      </element>
+    </root>
+  </artifact>
+</component>
