@@ -32,7 +32,13 @@
 			<artifactId>logback-classic</artifactId>
 			<version>1.1.2</version>
 		</dependency>
-	</dependencies>
+        <dependency>
+            <groupId>javax.servlet</groupId>
+            <artifactId>javax.servlet-api</artifactId>
+            <version>3.1.0</version>
+            <scope>compile</scope>
+        </dependency>
+    </dependencies>
 
 	<build>
 		<finalName>web-application-server</finalName>

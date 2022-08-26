@@ -3,18 +3,27 @@ package request;
 import constants.HttpMethod;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import response.HttpResponse;
+import response.HttpResponseImpl;
+import response.SessionHandler;
+import util.HttpCookie;
+import util.HttpSession;
+import util.HttpSessions;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
+import java.util.UUID;
 
 public class HttpRequestImpl extends HttpRequest {
 
     private static final Logger log = LoggerFactory.getLogger(HttpRequestImpl.class);
     private RequestLine requestLine;
     private RequestHandler handler;
+    private SessionHandler sessionHandler;
+    private HttpCookie httpCookie;
 
     public HttpRequestImpl(InputStream in) {
         try {
@@ -23,6 +32,11 @@ public class HttpRequestImpl extends HttpRequest {
             if (line == null) {
                 return;
             }
+
+            if (httpCookie.getCookie("JSESSIONID") == null) {
+                sessionHandler.setSessionID();
+            }
+
             requestLine = new RequestLine(line);
             handler = new RequestHandler(br, line);
 
@@ -30,7 +44,6 @@ public class HttpRequestImpl extends HttpRequest {
             log.error(e.getMessage());
         }
     }
-
 
     @Override
     public HttpMethod getMethod() {
@@ -50,5 +63,15 @@ public class HttpRequestImpl extends HttpRequest {
     @Override
     public String getHeader(String name) {
         return handler.getHeader(name);
+    }
+
+    @Override
+    public HttpCookie getCookies() {
+        return new HttpCookie(getHeader("Cookie"));
+    }
+
+    @Override
+    public HttpSession getSession() {
+        return HttpSessions.getSession(getCookies().getCookie("JSESSIONID"));
     }
 }

@@ -7,4 +7,5 @@ public interface HttpResponse {
     public void response200Header();
     public void responseBody(byte[] body);
     public void sendRedirect(String path);
+
 }

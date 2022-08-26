@@ -87,6 +87,7 @@ public class HttpResponseImpl implements HttpResponse {
             log.error(e.getMessage());
         }
     }
+
     public void addHeader(String header, String value) {
         headers.put(header, value);
     }
