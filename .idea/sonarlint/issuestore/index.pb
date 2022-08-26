@@ -39,8 +39,6 @@ a
 16장~12장 실습공간/webapp/WEB-INF/.gitignore,0/c/0ccd3aa65e296e6891d1f0aa5e4e738cef7f2a71
 w
 G.idea/sonarlint/issuestore/1/7/17a461c07b732051075ebdfbe516850421bd002d,a/a/aa850181a5528fa0f82ae7e1aabfa221ad53c8b7
-R
-"6장~12장 실습공간/.gitignore,b/2/b20a1305c98e433136a174bbe9eee5748b9c1b6c
 V
 &6장~12장 실습공간/sync_branch.sh,1/9/19378b36b72f9e54e354b62537fbbd56ac7d0515
 \
