@@ -10,12 +10,11 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import core.mvc.Controller;
+import next.dao.UserDao;
 import next.model.User;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import core.db.DataBase;
 
 public class CreateUserController implements Controller {
     private static final long serialVersionUID = 1L;
@@ -29,8 +28,9 @@ public class CreateUserController implements Controller {
         if(user == null ) {
             return "redirect:/user/loginForm";
         }
+        UserDao userDao = new UserDao();
+        userDao.insert(user);
         log.debug("user : {}", user);
-        DataBase.addUser(user);
 
         return "redirect:/";
     }

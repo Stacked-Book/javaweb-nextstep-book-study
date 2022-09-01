@@ -14,7 +14,7 @@ import java.io.IOException;
 /**
  * 모든 클라이언트 요청을 받고 요청 URL에 따라 해당 컨트롤러에 작업을 위임한다.
  * */
-@WebServlet(name = "dispatcher", urlPatterns = "/", loadOnStartup = 1)
+@WebServlet(name = "dispatcher", urlPatterns = "/*", loadOnStartup = 1)
 public class DispatcherServlet extends HttpServlet {
     private static final long serialVersionUID = 1L;
     private static final Logger logger =

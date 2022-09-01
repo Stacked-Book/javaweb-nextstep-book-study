@@ -13,12 +13,7 @@ public class User {
         this.email = email;
     }
 
-    public User updateUser(String password, String name, String email) {
-        this.password = password;
-        this.name = name;
-        this.email = email;
-        return this;
-    }
+
 
     public String getUserId() {
         return userId;
@@ -73,4 +68,17 @@ public class User {
         return true;
     }
 
+    public void update(User user) {
+        this.password = user.getPassword();
+        this.name = user.getName();
+        this.email = user.getEmail();
+    }
+
+
+    public User updateUser(String password, String name, String email) {
+        this.password = password;
+        this.name = name;
+        this.email = email;
+        return this;
+    }
 }
