@@ -1,0 +1,11 @@
+
+\
+java:S1118":Add a private constructor to hide the implicit public one.(üÛàåýÿÿÿÿ8ÎÞ™Ê­0
+Z
+java:S16126"=Replace this lambda with method reference 'Objects::nonNull'.(½è‹˜8ÛÞ™Ê­0
+[
+java:S16127"9Replace this lambda with method reference 'Pair::getKey'.(ùÝ·—úÿÿÿÿ8ÛÞ™Ê­0
+]
+java:S16127";Replace this lambda with method reference 'Pair::getValue'.(ùÝ·—úÿÿÿÿ8ÜÞ™Ê­0
+R
+java:S1128"5Remove this unused import 'webserver.RequestHandler'.(’˜ëˆ8äÞ™Ê­0

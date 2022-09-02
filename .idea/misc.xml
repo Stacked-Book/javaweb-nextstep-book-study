@@ -2,14 +2,15 @@
 <project version="4">
   <component name="ExternalStorageConfigurationManager" enabled="true" />
   <component name="FrameworkDetectionExcludesConfiguration">
+    <file type="web" url="file://$USER_HOME$/Downloads/jwp-basic" />
     <file type="web" url="file://$USER_HOME$/Downloads/jwp-basic-step0-getting-started" />
-    <file type="web" url="file://$PROJECT_DIR$/6장~12장 실습공간" />
+    <file type="web" url="file://$PROJECT_DIR$/6~12장 실습공간" />
   </component>
   <component name="MavenProjectsManager">
     <option name="originalFiles">
       <list>
         <option value="$PROJECT_DIR$/3~6장 실습공간/pom.xml" />
-        <option value="$PROJECT_DIR$/6장~12장 실습공간/pom.xml" />
+        <option value="$USER_HOME$/Downloads/jwp-basic/pom.xml" />
       </list>
     </option>
   </component>
