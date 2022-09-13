@@ -1,13 +1,13 @@
-<%@ page language="java" contentType="text/html;charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 
 <!DOCTYPE html>
 <html lang="kr">
 <head>
-    <%@ include file="/include/header.jsp" %>
+    <%@ include file="/include/header.jspf" %>
 </head>
 <body>
-<%@ include file="/include/navigation.jsp" %>
+<%@ include file="/include/navigation.jspf" %>
 
 <div class="container" id="main">
     <div class="col-md-6 col-md-offset-3">
@@ -20,9 +20,9 @@
                             <img class="media-object" src="../images/80-text.png">
                         </a>
                         <div class="media-body">
-                            <h4 class="media-heading">자바지기</h4>
+                            <h4 class="media-heading">${user.name}</h4>
                             <p>
-                                <a href="#" class="btn btn-xs btn-default"><span class="glyphicon glyphicon-envelope"></span>&nbsp;javajigi@slipp.net</a>
+                                <a href="#" class="btn btn-xs btn-default"><span class="glyphicon glyphicon-envelope"></span>&nbsp;${user.email}</a>
                             </p>
                         </div>
                     </div>
@@ -32,9 +32,6 @@
     </div>
 </div>
 
-<!-- script references -->
-<script src="../js/jquery-2.2.0.min.js"></script>
-<script src="../js/bootstrap.min.js"></script>
-<script src="../js/scripts.js"></script>
-	</body>
+<%@ include file="/include/footer.jspf" %>
+</body>
 </html>

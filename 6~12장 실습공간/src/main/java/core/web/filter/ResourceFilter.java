@@ -17,10 +17,6 @@ import javax.servlet.http.HttpServletRequest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-/**
- * DispatcherServlet에서 요청 URL을 처리할 때
- * 컨트롤러가 필요없는 CSS, 자바스크립트, 이미지에 대한 요청을 처리하기 위한 서블릿 필터
- * */
 @WebFilter("/*")
 public class ResourceFilter implements Filter {
     private static final Logger logger = LoggerFactory.getLogger(ResourceFilter.class);

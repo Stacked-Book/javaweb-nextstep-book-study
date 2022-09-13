@@ -1,7 +1,6 @@
 package core.mvc;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import java.io.IOException;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -9,23 +8,20 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
 
-/**
- * 모든 클라이언트 요청을 받고 요청 URL에 따라 해당 컨트롤러에 작업을 위임한다.
- * */
-@WebServlet(name = "dispatcher", urlPatterns = "/*", loadOnStartup = 1)
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+@WebServlet(name = "dispatcher", urlPatterns = "/", loadOnStartup = 1)
 public class DispatcherServlet extends HttpServlet {
     private static final long serialVersionUID = 1L;
-    private static final Logger logger =
-            LoggerFactory.getLogger(DispatcherServlet.class);
+    private static final Logger logger = LoggerFactory.getLogger(DispatcherServlet.class);
     private static final String DEFAULT_REDIRECT_PREFIX = "redirect:";
 
     private RequestMapping rm;
 
     @Override
     public void init() throws ServletException {
-        logger.info("### DispatcherServlet init");
         rm = new RequestMapping();
         rm.initMapping();
     }
@@ -58,4 +54,3 @@ public class DispatcherServlet extends HttpServlet {
         rd.forward(req, resp);
     }
 }
-

@@ -13,8 +13,6 @@ public class User {
         this.email = email;
     }
 
-
-
     public String getUserId() {
         return userId;
     }
@@ -29,6 +27,24 @@ public class User {
 
     public String getEmail() {
         return email;
+    }
+
+    public void update(User updateUser) {
+        this.password = updateUser.password;
+        this.name = updateUser.name;
+        this.email = updateUser.email;
+    }
+
+    public boolean matchPassword(String password) {
+        if (password == null) {
+            return false;
+        }
+
+        return this.password.equals(password);
+    }
+
+    public boolean isSameUser(User user) {
+        return userId.equals(user.userId);
     }
 
     @Override
@@ -68,17 +84,8 @@ public class User {
         return true;
     }
 
-    public void update(User user) {
-        this.password = user.getPassword();
-        this.name = user.getName();
-        this.email = user.getEmail();
-    }
-
-
-    public User updateUser(String password, String name, String email) {
-        this.password = password;
-        this.name = name;
-        this.email = email;
-        return this;
+    @Override
+    public String toString() {
+        return "User [userId=" + userId + ", name=" + name + ", email=" + email + "]";
     }
 }
