@@ -2,8 +2,8 @@
 <project version="4">
   <component name="ExternalStorageConfigurationManager" enabled="true" />
   <component name="FrameworkDetectionExcludesConfiguration">
-    <file type="web" url="file://$USER_HOME$/Downloads/jwp-basic" />
     <file type="web" url="file://$USER_HOME$/Downloads/jwp-basic-step0-getting-started" />
+    <file type="web" url="file://$PROJECT_DIR$/6~12장 실습공간" />
     <file type="web" url="file://$PROJECT_DIR$/6~12장 실습공간" />
   </component>
   <component name="MavenProjectsManager">
