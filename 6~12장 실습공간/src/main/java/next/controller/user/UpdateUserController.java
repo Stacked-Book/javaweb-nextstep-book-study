@@ -13,7 +13,7 @@ import next.dao.UserDao;
 import next.model.User;
 
 public class UpdateUserController extends AbstractController {
-    private UserDao userDao = new UserDao();
+    private UserDao userDao = UserDao.getInstance();
     private static final Logger log = LoggerFactory.getLogger(UpdateUserController.class);
 
     @Override

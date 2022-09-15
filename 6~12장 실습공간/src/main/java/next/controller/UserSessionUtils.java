@@ -33,4 +33,18 @@ public class UserSessionUtils {
 
         return user.isSameUser(getUserFromSession(session));
     }
+
+    public static boolean isSameUser(HttpSession session, String userId) {
+        if (!isLogined(session)) {
+            return false;
+        }
+
+        if (userId == null) {
+            return false;
+        }
+
+        return getUserFromSession(session).isSameUser(userId);
+    }
+
+
 }

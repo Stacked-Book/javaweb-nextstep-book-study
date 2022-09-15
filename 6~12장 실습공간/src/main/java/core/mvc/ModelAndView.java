@@ -8,6 +8,8 @@ public class ModelAndView {
     private View view;
     private Map<String, Object> model = new HashMap<>();
 
+    public ModelAndView() { }
+
     public ModelAndView(View view) {
         this.view = view;
     }
