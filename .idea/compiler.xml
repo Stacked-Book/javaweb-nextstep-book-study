@@ -12,7 +12,9 @@
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
+      <module name="6~12장 실습공간" target="1.8" />
       <module name="jwp-basic (1)" target="1.8" />
+      <module name="jwp-two" target="11" />
       <module name="untitled" target="11" />
     </bytecodeTargetLevel>
   </component>
