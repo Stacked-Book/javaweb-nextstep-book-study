@@ -107,3 +107,5 @@ w
 G.idea/sonarlint/issuestore/1/b/1b2bec33d91348e779826773b81f6639927e5b06,b/8/b80705a4d46f3945daf1465f29477f84e2db5b0d
 w
 G.idea/sonarlint/issuestore/7/f/7f854fc5a8cc6a1c0896f7270fe098aa0780ade6,7/4/742321cb5540b70a593bc482cfd4e22fa1d34c97
+9
+	README.md,8/e/8ec9a00bfd09b3190ac6b22251dbb1aa95a0579d

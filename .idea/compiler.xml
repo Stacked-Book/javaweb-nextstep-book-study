@@ -6,14 +6,15 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
+        <module name="jwp-basic (2)" />
         <module name="jwp-basic" />
-        <module name="web-application-server" />
         <module name="jwp-basic (1)" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
       <module name="6~12장 실습공간" target="1.8" />
-      <module name="jwp-basic (1)" target="1.8" />
+      <module name="jwp-basic (1)" target="1.5" />
+      <module name="jwp-basic (2)" target="1.5" />
       <module name="jwp-two" target="11" />
       <module name="untitled" target="11" />
     </bytecodeTargetLevel>
