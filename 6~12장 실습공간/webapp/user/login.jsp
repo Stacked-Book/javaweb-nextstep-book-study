@@ -68,7 +68,7 @@
                 <li><a href="user/update/<%=user.getUserId()%>" role="button">개인정보수정</a></li>
                 <%}else {%>
                 <li><a href="../user/login.jsp" role="button">로그인</a></li>
-                <li><a href="../user/form.html" role="button">회원가입</a></li>
+                <li><a href="form.jsp" role="button">회원가입</a></li>
                 <%}%>
             </ul>
         </div>

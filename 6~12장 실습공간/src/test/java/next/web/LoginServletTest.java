@@ -38,7 +38,7 @@ class LoginServletTest {
         request.setParameter("password", "1234");
 
         //when
-        loginServlet.doPost(request, response);
+        loginServlet.execute(request, response);
 
         //then
         assertThat(request.getSession().getAttribute("user")).isEqualTo(DataBase.findUserById(request.getParameter("userId")));
@@ -54,7 +54,7 @@ class LoginServletTest {
 
         //then
         assertDoesNotThrow(() -> {
-            loginServlet.doPost(request, response);
+            loginServlet.execute(request, response);
         });
         assertThat(request.getSession().getAttribute("user")).isNotEqualTo(DataBase.findUserById(request.getParameter("userId")));
         assertThat(response.getRedirectedUrl()).isEqualTo("/");
@@ -68,7 +68,7 @@ class LoginServletTest {
         request.setSession(session);
 
         //when
-        logOutServlet.doGet(request,response);
+        logOutServlet.execute(request,response);
 
         //then
         assertTrue(session.isInvalid());

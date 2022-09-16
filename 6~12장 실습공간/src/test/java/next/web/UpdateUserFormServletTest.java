@@ -35,7 +35,7 @@ class UpdateUserFormServletTest {
         request.setPathInfo("/dudwls0505");
 
         //when
-        servlet.doGet(request, response);
+        servlet.execute(request, response);
 
         //then
         assertThat(request.getAttribute("user")).isSameAs(DataBase.findUserById("dudwls0505"));
@@ -49,14 +49,14 @@ class UpdateUserFormServletTest {
 
         //then
         assertDoesNotThrow(() -> {
-            servlet.doGet(request, response);
+            servlet.execute(request, response);
         });
         assertThat(response.getRedirectedUrl()).isEqualTo("/user/create");
     }
 
     @Test
     @DisplayName("POST: 유저 수정처리 반영 (성공)")
-    void doPostUpdateUserFormServletTest() throws IOException {
+    void doPostUpdateUserFormServletTest() throws IOException, ServletException {
         //given
         request.setParameter("userId", "dudwls0505");
         request.setParameter("password", "5678");
@@ -64,7 +64,7 @@ class UpdateUserFormServletTest {
         request.setParameter("email", "dudwls0505@naver.com");
 
         //when
-        servlet.doPost(request, response);
+        servlet.execute(request, response);
 
         //then
         assertEquals(DataBase.findUserById(request.getParameter("userId")), new User("dudwls0505", "5678", "이영진", "dudwls0505@naver.com"));
@@ -79,7 +79,7 @@ class UpdateUserFormServletTest {
 
         //then
         assertThrows(NoSuchElementException.class, () ->{
-            servlet.doPost(request,response);
+            servlet.execute(request,response);
         });
     }
 }
