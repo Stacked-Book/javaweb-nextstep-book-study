@@ -9,6 +9,7 @@
         <module name="jwp-basic (2)" />
         <module name="jwp-basic" />
         <module name="jwp-basic (1)" />
+        <module name="web-application-server" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>

@@ -12,7 +12,7 @@ import next.dao.AnswerDao;
 import next.model.Result;
 
 public class DeleteAnswerController extends AbstractController {
-    private AnswerDao answerDao = new AnswerDao();
+    private AnswerDao answerDao = AnswerDao.getInstance();
     @Override
     public ModelAndView execute(HttpServletRequest req, HttpServletResponse resp) throws Exception {
         Long answerId = Long.parseLong(req.getParameter("answerId"));
