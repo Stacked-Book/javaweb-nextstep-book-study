@@ -9,14 +9,12 @@ import next.model.Question;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-public class UpdateQuestionController extends AbstractController {
-
+public class UpdateFormQuestionController extends AbstractController {
     private QuestionDao questionDao;
 
-    public UpdateQuestionController(QuestionDao questionDao) {
+    public UpdateFormQuestionController(QuestionDao questionDao) {
         this.questionDao = questionDao;
     }
-
 
     @Override
     public ModelAndView execute(HttpServletRequest req, HttpServletResponse resp) throws Exception {
@@ -26,15 +24,9 @@ public class UpdateQuestionController extends AbstractController {
 
         long questionId = Long.parseLong(req.getParameter("questionId"));
         Question question = questionDao.findById(questionId);
-
-        if (!UserSessionUtils.isSameUser(req.getSession(), question.getWriter())) {
+        if (!question.isSameWriter(UserSessionUtils.getUserFromSession(req.getSession()))) {
             throw new IllegalStateException("다른 사용자가 쓴 글을 수정할 수 없습니다.");
         }
-
-        Question newQuestion = new Question(question.getWriter(), req.getParameter("title"),
-                req.getParameter("contents"));
-        question.update(newQuestion);
-        questionDao.equals(question);
-        return jspView("redirect:/");
+        return jspView("/qna/update.jsp").addObject("question", question);
     }
 }

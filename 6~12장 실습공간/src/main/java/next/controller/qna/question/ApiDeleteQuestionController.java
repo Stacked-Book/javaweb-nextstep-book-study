@@ -12,7 +12,11 @@ import javax.servlet.http.HttpServletResponse;
 
 public class ApiDeleteQuestionController extends AbstractController  {
 
-    private QnaService qnaService = QnaService.getInstance();
+    private QnaService qnaService;
+
+    public ApiDeleteQuestionController(QnaService qnaService) {
+        this.qnaService = qnaService;
+    }
 
     @Override
     public ModelAndView execute(HttpServletRequest req, HttpServletResponse resp) throws Exception {

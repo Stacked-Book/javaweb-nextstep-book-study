@@ -1,6 +1,9 @@
 package next.model;
 
+import next.exception.CannotDeleteException;
+
 import java.util.Date;
+import java.util.List;
 
 public class Question {
     private long questionId;
@@ -57,7 +60,7 @@ public class Question {
         return countOfComment;
     }
 
-    public boolean isSameUser(User user) {
+    public boolean isSameWriter(User user) {
         return user.isSameUser(this.writer);
     }
 
@@ -66,6 +69,19 @@ public class Question {
         this.contents = newQuestion.contents;
     }
 
+    public boolean canDelete(User user, List<Answer> answers) throws CannotDeleteException {
+        if (!user.isSameUser(this.writer)) {
+            throw new CannotDeleteException("다른 사용자가 쓴 글을 삭제할 수 없습니다.");
+        }
+
+        for (Answer answer : answers) {
+            if (!answer.canDelete(user)) {
+                throw new CannotDeleteException("다른 사용자가 추가한 댓글이 존재해 삭제할 수 없습니다.");
+            }
+        }
+
+        return true;
+    }
     @Override
     public String toString() {
         return "Question [questionId=" + questionId + ", writer=" + writer + ", title=" + title + ", contents="
